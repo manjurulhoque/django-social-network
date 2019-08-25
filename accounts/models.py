@@ -16,13 +16,13 @@ class User(AbstractUser):
                               error_messages={
                                   'unique': "A user with that email already exists.",
                               })
-    gender = models.CharField(max_length=20, choices=(("male", "Male"), ("female", "Female")))
+    gender = models.CharField(max_length=20)
     status = models.BooleanField(default=False)
     avatar = models.ImageField(upload_to='avatars', default='avatars/guest.png')
     about = models.TextField(blank=True)
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ["username"]
+    REQUIRED_FIELDS = ["username", "gender"]
 
     def __unicode__(self):
         return self.email

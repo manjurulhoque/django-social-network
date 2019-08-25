@@ -39,7 +39,8 @@ class RegisterView(CreateView):
             user.save()
             return redirect('accounts:login')
         else:
-            return render(request, 'accounts/login.html', {'form': user_form})
+            print(user_form.errors)
+            return render(request, 'accounts/register.html', {'form': user_form})
 
 
 class LoginView(FormView):
@@ -71,12 +72,9 @@ class LoginView(FormView):
 
     def form_valid(self, form):
         auth.login(self.request, form.get_user())
-
         return HttpResponseRedirect(self.get_success_url())
-        # return super(Login, self).form_valid(form)
 
     def form_invalid(self, form):
-        """If the form is invalid, render the invalid form."""
         return self.render_to_response(self.get_context_data(form=form))
 
 

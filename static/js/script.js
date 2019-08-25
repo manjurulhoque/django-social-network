@@ -294,18 +294,7 @@ $(function() {
 	  });
 
 	  
-// login & register form
-	$('button.signup').on("click", function(){
-		$('.login-reg-bg').addClass('show');
-		return false;
-	  });
-	  
-	  $('.already-have').on("click", function(){
-		$('.login-reg-bg').removeClass('show');
-		return false;
-	  });
-	
-//----- count down timer		
+//----- count down timer
 	if ($.isFunction($.fn.downCount)) {
 		$('.countdown').downCount({
 			date: '11/12/2018 12:00:00',
