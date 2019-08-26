@@ -29,11 +29,6 @@ $('.nearby-contct .add-friend').click(function () {
     });
 });
 
-function addNewNotification(notification) {
-    const template = `<a class="dropdown-item text-success" href="#">${notification.body}</a>`;
-    $('#messages').prepend(template);
-}
-
 let friendRequestNotificationSocket = new ReconnectingWebSocket(
     'ws://' + window.location.host +
     '/ws/friend-request-notification/');
@@ -47,29 +42,29 @@ function fetchFriendRequests() {
 
 function createNotification(notification) {
     console.log(notification);
-
     let single = `<li>
                        <a href="#" title="">
                             <img src="images/resources/thumb-1.jpg" alt="">
                             <div class="mesg-meta">
                                 <h6></h6>
-                                <span>${notification}</span>
+                                <span>${notification.actor} ${notification.verb}</span>
                                 <i>2 min ago</i>
                             </div>
                        </a>
                        <span class="tag green">New</span>
                    </li>`;
-    document.querySelector('#friend-menu').prepend(single);
+    $('#friend-menu').prepend(single);
 }
 
 friendRequestNotificationSocket.onmessage = function (event) {
     let data = JSON.parse(event.data);
     if (data['command'] === 'notifications') {
         let notifications = JSON.parse(data['notifications']);
+        $('#total-friend-notifications').text(notifications.length);
         for (let i = 0; i < notifications.length; i++) {
             createNotification(notifications[i].fields);
         }
-    } else if (data['command'] === 'new_message') {
+    } else if (data['command'] === 'new_notification') {
         createNotification(data['message']);
     }
 };
