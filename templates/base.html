@@ -167,7 +167,7 @@
                 </li>
             </ul>
             <div class="user-img">
-                <img src="images/resources/admin.jpg" alt="">
+                <img src="{{ request.user.profile.avatar.url }}" alt="" style="height: 40px; width: 40px;">
                 <span class="status f-online"></span>
                 <div class="user-setting">
                     <a href="#" title=""><span class="status f-online"></span>online</a>
