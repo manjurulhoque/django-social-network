@@ -2,7 +2,7 @@
 
 [Master Stylesheet]
 
-Project Name: winku (HMTL Template)
+Project Name: Gatherly (HMTL Template)
 Version:    1.1
 Last change:  4/september/18
 
@@ -8067,13 +8067,13 @@ h3.resutl-found > span {
 
 /*--- about page ---*/
 
-.about-winku {
+.about-Gatherly {
     float: left;
     position: relative;
     width: 100%;
 }
 
-.about-winku > h4 {
+.about-Gatherly > h4 {
     display: inline-block;
     font-size: 28px;
     font-weight: bold;
@@ -8082,7 +8082,7 @@ h3.resutl-found > span {
     color: #333;
 }
 
-.about-winku > span {
+.about-Gatherly > span {
     display: inline-block;
     margin-bottom: 20px;
     width: 100%;

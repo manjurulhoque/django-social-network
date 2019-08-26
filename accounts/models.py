@@ -18,7 +18,6 @@ class User(AbstractUser):
                               })
     gender = models.CharField(max_length=20)
     status = models.BooleanField(default=False)
-    avatar = models.ImageField(upload_to='avatars', default='avatars/guest.png')
     about = models.TextField(blank=True)
 
     USERNAME_FIELD = "email"
