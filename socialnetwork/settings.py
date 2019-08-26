@@ -9,6 +9,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
+    'channels',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -18,7 +19,8 @@ INSTALLED_APPS = [
     'accounts',
     'userprofile',
     'core',
-    'newsfeed'
+    'newsfeed',
+    'friends',
 ]
 
 MIDDLEWARE = [
@@ -50,6 +52,16 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'socialnetwork.wsgi.application'
+ASGI_APPLICATION = "socialnetwork.routing.application"
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
 
 DATABASES = {
     'default': {

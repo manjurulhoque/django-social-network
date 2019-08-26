@@ -8,4 +8,5 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),
     path('', include('core.urls')),
     path('', include('newsfeed.urls')),
+    path('', include('friends.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
