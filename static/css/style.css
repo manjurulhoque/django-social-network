@@ -1910,6 +1910,18 @@ li.post-comment .comet-avatar {
     line-height: 16px;
 }
 
+.post-comt-box form input {
+    background: #f3f3f3 none repeat scroll 0 0;
+    border-color: transparent;
+    border-radius: 3px;
+    color: #000000;
+    font-size: 13.5px;
+    font-weight: 500;
+    height: 40px;
+    line-height: 16px;
+    width: 100%;
+}
+
 .add-smiles {
     position: absolute;
     right: 10px;

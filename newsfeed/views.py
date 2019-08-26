@@ -30,3 +30,12 @@ class PostCreateView(CreateView):
             return self.form_valid(form)
         else:
             return self.form_invalid(form)
+
+
+def create_comment(request, post_id=None):
+    if request.method == "POST":
+        post = Post.objects.get(id=post_id)
+        post.comments.create(user=request.user, content=request.POST.get('content'))
+        return redirect(reverse_lazy('core:home'))
+    else:
+        return redirect(reverse_lazy('core:home'))
