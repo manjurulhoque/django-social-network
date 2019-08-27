@@ -22,6 +22,7 @@ INSTALLED_APPS = [
     'core',
     'newsfeed',
     'friends',
+    'notifications',
 ]
 
 MIDDLEWARE = [
