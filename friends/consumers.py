@@ -18,10 +18,9 @@ class FriendRequestConsumer(AsyncJsonWebsocketConsumer):
         notifications = CustomNotification.objects.select_related('actor').filter(recipient=user,
                                                                                   type="friend")
         serializer = NotificationSerializer(notifications, many=True)
-        print(serializer.data)
         content = {
             'command': 'notifications',
-            'notifications': serializer.data
+            'notifications': json.dumps(serializer.data)
         }
 
         await self.send_json(content)

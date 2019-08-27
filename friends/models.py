@@ -9,6 +9,7 @@ class Friend(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)  # who sent the request
     friend = models.ForeignKey(User, on_delete=models.CASCADE, related_name='friends')  # who will receive the request
     created_at = models.DateTimeField(default=now)
+    status = models.CharField(max_length=20, default='requested')
 
 
 class CustomNotification(models.Model):

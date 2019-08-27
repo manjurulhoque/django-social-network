@@ -16,6 +16,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
     'accounts',
     'userprofile',
     'core',
@@ -62,6 +63,7 @@ CHANNEL_LAYERS = {
         },
     },
 }
+
 
 DATABASES = {
     'default': {

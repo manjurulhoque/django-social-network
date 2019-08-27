@@ -1,6 +1,5 @@
+let csrfmiddlewaretoken = document.getElementsByName("csrfmiddlewaretoken")[0].value;
 $('.nearby-contct .add-friend').click(function () {
-
-    let csrfmiddlewaretoken = document.getElementsByName("csrfmiddlewaretoken")[0].value;
 
     $.ajaxSetup({
         headers: {
@@ -20,7 +19,7 @@ $('.nearby-contct .add-friend').click(function () {
             if (res.status === false) {
             }
             if (res.status === true) {
-                $('.add-friend').text('Request Sent');
+                // $('.add-friend').text('Request Sent');
             }
         },
         error: function (err) {
@@ -28,6 +27,34 @@ $('.nearby-contct .add-friend').click(function () {
         }
     });
 });
+
+function accept(li) {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRFToken': csrfmiddlewaretoken
+        }
+    });
+
+    let friend = $(li).data('friend');
+
+    let url = `/accept-request/${friend}`;
+
+    $.ajax({
+        type: 'POST',
+        url: url,
+        dataType: 'json',
+        success: function (res) {
+            if (res.status === false) {
+            }
+            if (res.status === true) {
+
+            }
+        },
+        error: function (err) {
+            console.log(err);
+        }
+    });
+}
 
 let friendRequestNotificationSocket = new ReconnectingWebSocket(
     'ws://' + window.location.host +
@@ -42,16 +69,17 @@ function fetchFriendRequests() {
 
 function createNotification(notification) {
     console.log(notification);
-    let single = `<li>
+    let single = `<li class="list">
                        <a href="#" title="">
                             <img src="images/resources/thumb-1.jpg" alt="">
                             <div class="mesg-meta">
-                                <h6></h6>
-                                <span>${notification.actor} ${notification.verb}</span>
+                                <span>${notification.actor.username} ${notification.verb}</span>
+                                <button class="btn btn-primary btn-sm accept-request" onclick="accept(this)" data-friend="${notification.actor.username}">Accept</button>
+                                <button class="btn btn-danger btn-sm">Reject</button>
+                                <br>
                                 <i>2 min ago</i>
                             </div>
                        </a>
-                       <span class="tag green">New</span>
                    </li>`;
     $('#friend-menu').prepend(single);
 }
@@ -62,10 +90,12 @@ friendRequestNotificationSocket.onmessage = function (event) {
         let notifications = JSON.parse(data['notifications']);
         $('#total-friend-notifications').text(notifications.length);
         for (let i = 0; i < notifications.length; i++) {
-            createNotification(notifications[i].fields);
+            createNotification(notifications[i]);
         }
     } else if (data['command'] === 'new_notification') {
-        createNotification(data['message']);
+        let notification = $('#total-friend-notifications');
+        notification.text(parseInt(notification.text() + 1));
+        createNotification(JSON.parse(data['notification']));
     }
 };
 
