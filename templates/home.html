@@ -13,7 +13,7 @@
                                 <div class="central-meta">
                                     <div class="new-postbox">
                                         <figure>
-                                            <img src="{{ request.user.profile.avatar.url }}" alt="">
+                                            <img src="{{ request.user.profile.profile_image.url }}" alt="">
                                         </figure>
                                         <div class="newpst-input">
                                             <form method="post" action="{% url 'newsfeed:post-create' %}">
@@ -60,7 +60,7 @@
                                             <div class="user-post">
                                                 <div class="friend-info">
                                                     <figure>
-                                                        <img src="{{ post.user.profile.avatar.url }}" alt="">
+                                                        <img src="{{ post.user.profile.profile_image.url }}" alt="">
                                                     </figure>
                                                     <div class="friend-name">
                                                         <ins><a href="{% url 'profile:user-timeline' post.user.username %}" title="">{{ post.user.username }}</a></ins>
@@ -133,7 +133,7 @@
                                                         {% for comment in post.comments.all %}
                                                             <li>
                                                                 <div class="comet-avatar">
-                                                                    <img src="{{ comment.user.profile.avatar.url }}" alt="">
+                                                                    <img src="{{ comment.user.profile.profile_image.url }}" alt="">
                                                                 </div>
                                                                 <div class="we-comment">
                                                                     <div class="coment-head">
@@ -147,7 +147,7 @@
                                                         {% endfor %}
                                                         <li class="post-comment">
                                                             <div class="comet-avatar">
-                                                                <img src="{{ request.user.profile.avatar.url }}" alt="">
+                                                                <img src="{{ request.user.profile.profile_image.url }}" alt="">
                                                             </div>
                                                             <div class="post-comt-box">
                                                                 <form method="post" id="comment-form" action="{% url 'newsfeed:comment-create' post.id %}">

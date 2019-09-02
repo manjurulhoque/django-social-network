@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <section>
+        <div class="gap gray-bg">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="row" id="page-contents">
+                            <div class="col-lg-3">
+                                <aside class="sidebar static">
+                                    <div class="widget stick-widget">
+                                        <h4 class="widget-title">Edit info</h4>
+                                        <ul class="naves">
+                                            <li>
+                                                <i class="ti-info-alt"></i>
+                                                <a href="edit-profile-basic.html" title="">Basic info</a>
+                                            </li>
+                                            <li>
+                                                <i class="ti-mouse-alt"></i>
+                                                <a href="edit-work-eductation.html" title="">Education & Work</a>
+                                            </li>
+                                            <li>
+                                                <i class="ti-heart"></i>
+                                                <a href="edit-interest.html" title="">My interests</a>
+                                            </li>
+                                            <li>
+                                                <i class="ti-settings"></i>
+                                                <a href="edit-account-setting.html" title="">account setting</a>
+                                            </li>
+                                            <li>
+                                                <i class="ti-lock"></i>
+                                                <a href="edit-password.html" title="">change password</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </aside>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="central-meta">
+                                    <div class="editing-info">
+                                        <h5 class="f-title"><i class="ti-info-alt"></i> Edit Basic Information</h5>
+
+                                        <form method="post" action="">
+                                            {% csrf_token %}
+                                            <div class="form-group half">
+                                                <input type="text" id="input" name="first_name" required="required" value="{{ request.user.first_name }}"/>
+                                                <label class="control-label" for="input">First Name</label><i class="mtrl-select"></i>
+                                            </div>
+                                            <div class="form-group half">
+                                                <input type="text" name="last_name" required="required" value="{{ request.user.last_name }}"/>
+                                                <label class="control-label" for="input">Last Name</label><i class="mtrl-select"></i>
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="text" name="phone" required="required" value="{{ profile.phone }}"/>
+                                                <label class="control-label" for="input">Phone No.</label><i class="mtrl-select"></i>
+                                            </div>
+                                            <div class="form-radio">
+                                                <div class="radio">
+                                                    <label>
+                                                        <input type="radio" {% if request.user.gender == "male" %} checked="checked" {% endif %} name="gender" value="male"><i class="check-box"></i>Male
+                                                    </label>
+                                                </div>
+                                                <div class="radio">
+                                                    <label>
+                                                        <input type="radio" {% if request.user.gender == "female" %} checked="checked" {% endif %} name="gender" value="female"><i class="check-box"></i>Female
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="text" name="country" required="required" value="{{ profile.country }}"/>
+                                                <label class="control-label" for="input">Country</label><i class="mtrl-select"></i>
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="text" name="city" required="required" value="{{ profile.city }}"/>
+                                                <label class="control-label" for="input">City</label><i class="mtrl-select"></i>
+                                            </div>
+                                            <div class="form-group">
+                                                <textarea rows="4" id="textarea" required="required" name="about">{{ request.user.about }}</textarea>
+                                                <label class="control-label" for="textarea">About Me</label><i class="mtrl-select"></i>
+                                            </div>
+                                            <div class="submit-btns">
+                                                <button type="button" class="mtr-btn"><span>Cancel</span></button>
+                                                <button type="submit" class="mtr-btn"><span>Update</span></button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <aside class="sidebar static">
+                                </aside>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
