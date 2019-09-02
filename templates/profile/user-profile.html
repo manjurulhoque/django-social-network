@@ -1,6 +1,57 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
+
+    <section>
+        <div class="feature-photo">
+            <figure><img src="images/resources/timeline-1.jpg" alt=""></figure>
+            <div class="add-btn">
+                <span>1205 followers</span>
+                <a href="#" title="" data-ripple="">Add Friend</a>
+            </div>
+            <form class="edit-phto">
+                <i class="fa fa-camera-retro"></i>
+                <label class="fileContainer">
+                    Edit Cover Photo
+                    <input type="file"/>
+                </label>
+            </form>
+            <div class="container-fluid">
+                <div class="row merged">
+                    <div class="col-lg-2 col-sm-3">
+                        <div class="user-avatar">
+                            <figure>
+                                <img src="images/resources/user-avatar.jpg" alt="">
+                                <form class="edit-phto">
+                                    <i class="fa fa-camera-retro"></i>
+                                    <label class="fileContainer">
+                                        Edit Display Photo
+                                        <input type="file"/>
+                                    </label>
+                                </form>
+                            </figure>
+                        </div>
+                    </div>
+                    <div class="col-lg-10 col-sm-9">
+                        <div class="timeline-info">
+                            <ul>
+                                <li class="admin-name">
+                                    <h5>{{ user.username }}</h5>
+                                </li>
+                                <li>
+                                    <a class="active" href="#" title="" data-ripple="">time line</a>
+                                    <a class="" href="#" title="" data-ripple="">Photos</a>
+                                    <a class="" href="#" title="" data-ripple="">Friends</a>
+                                    <a class="" href="#" title="" data-ripple="">about</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section><!-- top area -->
 
     <section>
         <div class="gap gray-bg">
@@ -10,64 +61,63 @@
                         <div class="row" id="page-contents">
                             {% include 'includes/sidebar.html' %}
                             <div class="col-lg-6">
-                                <div class="central-meta">
-                                    <div class="new-postbox">
-                                        <figure>
-                                            <img src="{{ request.user.profile.avatar.url }}" alt="">
-                                        </figure>
-                                        <div class="newpst-input">
-                                            <form method="post" action="{% url 'newsfeed:post-create' %}">
-                                                {% csrf_token %}
-                                                <textarea rows="2" name="body" placeholder="Write something"></textarea>
-                                                <div class="attachments">
-                                                    <ul>
-                                                        <li>
-                                                            <i class="fa fa-music"></i>
-                                                            <label class="fileContainer">
-                                                                <input type="file">
-                                                            </label>
-                                                        </li>
-                                                        <li>
-                                                            <i class="fa fa-image"></i>
-                                                            <label class="fileContainer">
-                                                                <input type="file">
-                                                            </label>
-                                                        </li>
-                                                        <li>
-                                                            <i class="fa fa-video-camera"></i>
-                                                            <label class="fileContainer">
-                                                                <input type="file">
-                                                            </label>
-                                                        </li>
-                                                        <li>
-                                                            <i class="fa fa-camera"></i>
-                                                            <label class="fileContainer">
-                                                                <input type="file">
-                                                            </label>
-                                                        </li>
-                                                        <li>
-                                                            <button type="submit">Post</button>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div><!-- add post new box -->
                                 <div class="loadMore">
-                                    {% for post in posts %}
+{#                                    <div class="central-meta item">#}
+{#                                        <div class="new-postbox">#}
+{#                                            <figure>#}
+{#                                                <img src="{% static user.profile.avatar.url %}" alt="">#}
+{#                                            </figure>#}
+{#                                            <div class="newpst-input">#}
+{#                                                <form method="post">#}
+{#                                                    <textarea rows="2" placeholder="write something"></textarea>#}
+{#                                                    <div class="attachments">#}
+{#                                                        <ul>#}
+{#                                                            <li>#}
+{#                                                                <i class="fa fa-music"></i>#}
+{#                                                                <label class="fileContainer">#}
+{#                                                                    <input type="file">#}
+{#                                                                </label>#}
+{#                                                            </li>#}
+{#                                                            <li>#}
+{#                                                                <i class="fa fa-image"></i>#}
+{#                                                                <label class="fileContainer">#}
+{#                                                                    <input type="file">#}
+{#                                                                </label>#}
+{#                                                            </li>#}
+{#                                                            <li>#}
+{#                                                                <i class="fa fa-video-camera"></i>#}
+{#                                                                <label class="fileContainer">#}
+{#                                                                    <input type="file">#}
+{#                                                                </label>#}
+{#                                                            </li>#}
+{#                                                            <li>#}
+{#                                                                <i class="fa fa-camera"></i>#}
+{#                                                                <label class="fileContainer">#}
+{#                                                                    <input type="file">#}
+{#                                                                </label>#}
+{#                                                            </li>#}
+{#                                                            <li>#}
+{#                                                                <button type="submit">Publish</button>#}
+{#                                                            </li>#}
+{#                                                        </ul>#}
+{#                                                    </div>#}
+{#                                                </form>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                    </div>#}
+                                    {% for post in user.posts.all %}
                                         <div class="central-meta item">
                                             <div class="user-post">
                                                 <div class="friend-info">
                                                     <figure>
-                                                        <img src="{{ post.user.profile.avatar.url }}" alt="">
+                                                        <img src="{% static user.profile.avatar.url %}" alt="">
                                                     </figure>
                                                     <div class="friend-name">
-                                                        <ins><a href="{% url 'profile:user-timeline' post.user.username %}" title="">{{ post.user.username }}</a></ins>
-                                                        <span>published: {{ post.created_at|timesince }} ago</span>
+                                                        <ins><a href="#" title="">{{ user.username }}</a></ins>
+                                                        <span>published: {{ post.created_at }}</span>
                                                     </div>
                                                     <div class="post-meta">
-                                                        <img src="images/resources/user-post.jpg" alt="">
+{#                                                        <img src="images/resources/user-post.jpg" alt="">#}
                                                         <div class="we-video-info">
                                                             <ul>
                                                                 <li>
@@ -124,7 +174,7 @@
                                                             </ul>
                                                         </div>
                                                         <div class="description">
-                                                            <p>{{ post.body }}</p>
+                                                            <p style="font-size: 25px; font-weight: bold">{{ post.body }}</p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -133,26 +183,28 @@
                                                         {% for comment in post.comments.all %}
                                                             <li>
                                                                 <div class="comet-avatar">
-                                                                    <img src="{{ comment.user.profile.avatar.url }}" alt="">
+                                                                    <img src="{% static 'images/comment.jpg' %}" alt="" style="width: 50px; height: 50px">
                                                                 </div>
                                                                 <div class="we-comment">
                                                                     <div class="coment-head">
-                                                                        <h5><a href="#" title="">{{ comment.user.username }}</a></h5>
+                                                                        <h5><a href="time-line.html" title="">{{ comment.user.username }}</a></h5>
                                                                         <span>{{ comment.created_at|timesince }} ago</span>
-                                                                        <a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>
                                                                     </div>
                                                                     <p>{{ comment.content }}</p>
                                                                 </div>
                                                             </li>
                                                         {% endfor %}
+                                                        {#                                                        <li>#}
+                                                        {#                                                            <a href="#" title="" class="showmore underline">more comments</a>#}
+                                                        {#                                                        </li>#}
                                                         <li class="post-comment">
                                                             <div class="comet-avatar">
-                                                                <img src="{{ request.user.profile.avatar.url }}" alt="">
+                                                                <img src="{{ request.user.profile.avatar.url }}" alt="" style="width: 50px; height: 50px">
                                                             </div>
                                                             <div class="post-comt-box">
-                                                                <form method="post" id="comment-form" action="{% url 'newsfeed:comment-create' post.id %}">
-                                                                    {% csrf_token %}
-                                                                    <input placeholder="Post your comment" name="content">
+                                                                <form method="post">
+                                                                    <textarea placeholder="Post your comment"></textarea>
+                                                                    <button type="submit"></button>
                                                                 </form>
                                                             </div>
                                                         </li>
@@ -169,18 +221,16 @@
                                         <h4 class="widget-title">Friends</h4>
                                         <div id="searchDir"></div>
                                         <ul id="people-list" class="friendz-list">
-                                            {#                                            {% for friend in friends %}#}
-                                            {#                                                <li>#}
-                                            {#                                                    <figure>#}
-                                            {#                                                        <img src="images/resources/friend-avatar.jpg" alt="">#}
-                                            {#                                                        <span class="status f-online"></span>#}
-                                            {#                                                    </figure>#}
-                                            {#                                                    <div class="friendz-meta">#}
-                                            {#                                                        <a href="time-line.html">{{ friend.user.username }}</a>#}
-                                            {#                                                        <i><a href="https://wpkixx.com/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="07706e6973627574686b63627547606a666e6b2964686a">[email&#160;protected]</a></i>#}
-                                            {#                                                    </div>#}
-                                            {#                                                </li>#}
-                                            {#                                            {% endfor %}#}
+                                            <li>
+                                                <figure>
+                                                    {#<img src="images/resources/friend-avatar.jpg" alt="">#}
+                                                    <span class="status f-online"></span>
+                                                </figure>
+                                                <div class="friendz-meta">
+                                                    <a href="#">bucky barnes</a>
+                                                    <i><a href="https://wpkixx.com/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="97e0fef9e3f2e5e4f8fbf3f2e5d7f0faf6fefbb9f4f8fa">[email&#160;protected]</a></i>
+                                                </div>
+                                            </li>
                                         </ul>
                                         <div class="chat-box">
                                             <div class="chat-head">
