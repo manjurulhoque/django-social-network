@@ -8,8 +8,9 @@ from django.utils.timezone import now
 class Friend(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)  # who sent the request
     friend = models.ForeignKey(User, on_delete=models.CASCADE, related_name='friends')  # who will receive the request
-    created_at = models.DateTimeField(default=now)
+    # sender = models.CharField(max_length=20, default='requested')
     status = models.CharField(max_length=20, default='requested')
+    created_at = models.DateTimeField(default=now)
 
 
 class CustomNotification(models.Model):

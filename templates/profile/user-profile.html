@@ -5,7 +5,7 @@
 
     <section>
         <div class="feature-photo">
-            <figure><img src="images/resources/timeline-1.jpg" alt=""></figure>
+            <figure><img src="{{ user.profile.cover_image.url }}" alt="" style="height: 400px;"></figure>
             <div class="add-btn">
                 <span>1205 followers</span>
                 <a href="#" title="" data-ripple="">Add Friend</a>
@@ -22,12 +22,12 @@
                     <div class="col-lg-2 col-sm-3">
                         <div class="user-avatar">
                             <figure>
-                                <img src="images/resources/user-avatar.jpg" alt="">
+                                <img src="{{ user.profile.profile_image.url }}" alt="" style="height: 280px">
                                 <form class="edit-phto">
                                     <i class="fa fa-camera-retro"></i>
                                     <label class="fileContainer">
-                                        Edit Display Photo
-                                        <input type="file"/>
+                                        Edit Profile Photo
+                                        <input type="file" onclick="return confirm('Do you want to change profile photo?')"/>
                                     </label>
                                 </form>
                             </figure>

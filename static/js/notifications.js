@@ -68,7 +68,6 @@ function fetchFriendRequests() {
 }
 
 function createNotification(notification) {
-    console.log(notification);
     let single = `<li class="list">
                        <a href="#" title="">
                             <img src="images/resources/thumb-1.jpg" alt="">
@@ -129,7 +128,6 @@ likeCommentNotificationSocket.onopen = function (e) {
 
 likeCommentNotificationSocket.onmessage = function (event) {
     let data = JSON.parse(event.data);
-    console.log(data);
     if (data['command'] === 'notifications') {
         let notifications = JSON.parse(data['notifications']);
         $('#total-like-comment-notifications').text(notifications.length);

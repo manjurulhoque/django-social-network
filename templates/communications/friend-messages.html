@@ -1,0 +1,172 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+    <section>
+        <div class="gap gray-bg">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="row" id="page-contents">
+                            <div class="col-lg-3">
+                                <aside class="sidebar static">
+                                    <div class="widget stick-widget">
+                                        <h4 class="widget-title">Shortcuts</h4>
+                                        <ul class="naves">
+                                            <li>
+                                                <i class="ti-clipboard"></i>
+                                                <a href="newsfeed.html" title="">News feed</a>
+                                            </li>
+                                            <li>
+                                                <i class="ti-mouse-alt"></i>
+                                                <a href="inbox.html" title="">Inbox</a>
+                                            </li>
+                                            <li>
+                                                <i class="ti-user"></i>
+                                                <a href="timeline-friends.html" title="">friends</a>
+                                            </li>
+                                            <li>
+                                                <i class="ti-image"></i>
+                                                <a href="timeline-photos.html" title="">images</a>
+                                            </li>
+                                        </ul>
+                                    </div><!-- Shortcuts -->
+                                </aside>
+                            </div><!-- sidebar -->
+                            <div class="col-lg-6">
+                                <div class="central-meta">
+                                    <div class="messages">
+                                        <h5 class="f-title"><i class="ti-bell"></i>All Messages </h5>
+                                        <div class="message-box">
+                                            <ul class="peoples">
+                                                {% for friend in friends %}
+                                                    <li>
+                                                        <figure>
+                                                            <img src="images/resources/friend-avatar2.jpg" alt="">
+                                                            <span class="status f-online"></span>
+                                                        </figure>
+                                                        <div class="people-name">
+                                                            {% if friend.user.username == request.user.username %}
+                                                                <a href="{% url 'communications:messages-with-one-friend' friend.friend.username %}">{{ friend.friend.username }}</a>
+                                                            {% else %}
+                                                                <a href="{% url 'communications:messages-with-one-friend' friend.user.username %}">{{ friend.user.username }}</a>
+                                                            {% endif %}
+                                                        </div>
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>
+                                            <div class="peoples-mesg-box">
+                                                <div class="conversation-head">
+                                                    <figure><img src="images/resources/friend-avatar.jpg" alt=""></figure>
+                                                    <span>Chat with {{ friend_name_json|slice:"1:-1" }}</span>
+                                                </div>
+                                                <ul class="chatting-area">
+                                                </ul>
+                                                <div class="message-text-container">
+                                                    <form onsubmit="return false;">
+                                                        <textarea id="chat-message-input"></textarea>
+                                                        <button title="send" id="chat-message-submit"><i class="fa fa-paper-plane"></i></button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+
+{% block scripts %}
+
+    <script>
+        $(document).ready(function () {
+            let messages = $('.chatting-area');
+            {#console.log(messages.prop("scrollHeight"));#}
+            messages.animate({
+                scrollTop: messages.offset().top + 50
+            }, 'slow');
+        });
+
+        let friendName = {{ friend_name_json }};
+        let username = {{ username }};
+
+        let chatSocket = new ReconnectingWebSocket(
+            'ws://' + window.location.host +
+            '/ws/chat/' + friendName + '/');
+
+        chatSocket.onopen = function (e) {
+            fetchMessages();
+        };
+
+        chatSocket.onmessage = function (e) {
+            let data = JSON.parse(e.data);
+            if (data['command'] === 'messages') {
+                for (let i = 0; i < data['messages'].length; i++) {
+                    createMessage(data['messages'][i]);
+                }
+            } else if (data['command'] === 'new_message') {
+                createMessage(data['message']);
+            }
+        };
+
+        chatSocket.onclose = function (e) {
+            console.error('Chat socket closed unexpectedly');
+        };
+
+        document.querySelector('#chat-message-input').onkeyup = function (e) {
+            if (e.keyCode === 13) {  // enter, return
+                document.querySelector('#chat-message-submit').click();
+            }
+        };
+
+        document.querySelector('#chat-message-submit').onclick = function (e) {
+            let messageInputDom = document.getElementById('chat-message-input');
+            let message = messageInputDom.value;
+            chatSocket.send(JSON.stringify({
+                'command': 'new_message',
+                'message': message,
+                'from': username,
+                'friend': friendName
+            }));
+
+            messageInputDom.value = '';
+
+            let messages = $('#messages');
+            messages.animate({
+                scrollTop: messages.offset().top + 50
+            }, 1000);
+        };
+
+        function fetchMessages() {
+            chatSocket.send(JSON.stringify({'command': 'fetch_messages', 'author': username, 'friend': friendName}));
+        }
+
+        function createMessage(data) {
+            let author = data['author'];
+            let user_class = "";
+
+            if (author === username) {
+                user_class = "me";
+            } else {
+                user_class = "you";
+            }
+
+            let message = `<li class="${user_class}">
+                                <figure><img src="images/resources/userlist-1.jpg" alt=""></figure>
+                                <p>${data.content}</p>
+                            </li>`;
+
+            $('.chatting-area').append(message);
+        }
+    </script>
+
+{% endblock %}

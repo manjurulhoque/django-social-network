@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     'newsfeed',
     'friends',
     'notifications',
+    'communications',
 ]
 
 MIDDLEWARE = [
@@ -64,7 +65,6 @@ CHANNEL_LAYERS = {
         },
     },
 }
-
 
 DATABASES = {
     'default': {

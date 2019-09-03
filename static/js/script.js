@@ -3,7 +3,7 @@ jQuery(document).ready(function($) {
 	"use strict";
 	
 //------- Notifications Dropdowns
-  $('.top-area > .setting-area > li > a').on("click",function(){
+  $('.top-area > .setting-area > li > a').not('.link').on("click",function(){
 	 var $parent = $(this).parent('li');
 	$parent.siblings().children('div').removeClass('active');
 	$(this).siblings('div').addClass('active');
