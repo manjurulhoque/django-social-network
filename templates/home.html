@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block content %}
 
     <section>
@@ -60,7 +62,11 @@
                                             <div class="user-post">
                                                 <div class="friend-info">
                                                     <figure>
-                                                        <img src="{{ post.user.profile.profile_image.url }}" alt="">
+                                                        {% if post.user.profile.profile_image.url %}
+                                                            <img src="{{ post.user.profile.profile_image.url }}" alt="">
+                                                        {% else %}
+                                                            <img src="{% static 'images/default.jpg' %}" alt="">
+                                                        {% endif %}
                                                     </figure>
                                                     <div class="friend-name">
                                                         <ins><a href="{% url 'profile:user-timeline' post.user.username %}" title="">{{ post.user.username }}</a></ins>
@@ -133,7 +139,11 @@
                                                         {% for comment in post.comments.all %}
                                                             <li>
                                                                 <div class="comet-avatar">
-                                                                    <img src="{{ comment.user.profile.profile_image.url }}" alt="">
+                                                                    {% if comment.user.profile.profile_image.url %}
+                                                                        <img src="{{ comment.user.profile.profile_image.url }}" alt="">
+                                                                    {% else %}
+                                                                        <img src="{% static 'images/default.jpg' %}" alt="">
+                                                                    {% endif %}
                                                                 </div>
                                                                 <div class="we-comment">
                                                                     <div class="coment-head">
