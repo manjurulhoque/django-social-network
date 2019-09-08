@@ -6,7 +6,8 @@ SECRET_KEY = '@)h--nymd2&at*v$2$jf87q0&*o%rw9gzxgul(kr%$c4=k4q3)'
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+
+ALLOWED_HOSTS = ['localhost', 'social.manjurulhoque.com', '127.0.0.1']
 
 INSTALLED_APPS = [
     'channels',
