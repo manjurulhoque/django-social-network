@@ -28,3 +28,4 @@ Twisted
 txaio
 zope.interface
 gunicorn
+whitenoise
