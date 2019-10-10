@@ -9,6 +9,7 @@ Used Tech Stack
 3. Web Socket (Django Channel)
 
 Current Features:
+
 1. Login/Register
 2. Create post and comment on the particular post
 3. Receive notification when someone comment on your post
@@ -18,12 +19,15 @@ Current Features:
 ### Screenshots
 
 ## Home page
-<img src="screenshots/one.png" height="800">
+
+<img src="screenshots/one.png" height="400">
 
 ## Live Chatting
-<img src="screenshots/two.png" height="800">
+
+<img src="screenshots/two.png" height="400">
 
 ## Notification
-<img src="screenshots/three.png" height="800">
+
+<img src="screenshots/three.png" height="400">
 
 Show your support by 🌟 the project!!
