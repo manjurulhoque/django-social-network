@@ -66,6 +66,7 @@
                                                 <div class="message-text-container">
                                                     <form onsubmit="return false;">
                                                         <textarea id="chat-message-input"></textarea>
+                                                        <em id="typing"></em>
                                                         <button title="send" id="chat-message-submit"><i class="fa fa-paper-plane"></i></button>
                                                     </form>
                                                 </div>
@@ -115,8 +116,34 @@
                 }
             } else if (data['command'] === 'new_message') {
                 createMessage(data['message']);
+            } else if (data['command'] === 'typing_start') {
+                if (data["message"] !== friendName) {
+                    document.getElementById("typing").innerHTML = data["message"] + " is typing";
+                }
+            } else if (data['command'] === 'typing_stop') {
+                document.getElementById("typing").innerHTML = "";
             }
         };
+
+        document.querySelector('#chat-message-input').addEventListener("keypress", function () {
+            {#chatSocket.emit("typing", username);#}
+            chatSocket.send(JSON.stringify({
+                'command': 'typing_start',
+                'from': friendName,
+            }));
+        });
+
+        document.querySelector('#chat-message-input').addEventListener("keyup", function () {
+            setTimeout(() => {
+                chatSocket.send(JSON.stringify({
+                    'command': 'typing_stop',
+                }));
+            }, 300);
+        });
+
+        {% comment %}chatSocket.ontyping = function (data) {
+            console.log(data);
+        };{% endcomment %}
 
         chatSocket.onclose = function (e) {
             console.error('Chat socket closed unexpectedly');
