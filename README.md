@@ -4,9 +4,9 @@
 
 Used Tech Stack
 
-1. Django
-2. Sqlite
-3. Web Socket (Django Channel)
+1. [Django](https://docs.djangoproject.com/en/3.1/)
+2. [Sqlite](https://www.sqlite.org/docs.html)
+3. [Web Socket (Django Channel)](https://channels.readthedocs.io/en/latest/)
 
 Current Features:
 
