@@ -1,4 +1,6 @@
 import json
+
+from channels.db import database_sync_to_async
 from channels.generic.websocket import AsyncJsonWebsocketConsumer
 from django.contrib.auth import get_user_model
 from django.core import serializers
@@ -9,9 +11,15 @@ from friends.serializers import NotificationSerializer
 User = get_user_model()
 
 
+@database_sync_to_async
+def get_data(user):
+    return CustomNotification.objects.select_related('actor').filter(recipient=user, type="comment", unread=True)[:7]
+
+
 class NotificationConsumer(AsyncJsonWebsocketConsumer):
 
-    async def fetch_messages(self):
+    @database_sync_to_async
+    def fetch_messages(self):
         user = self.scope['user']
         notifications = CustomNotification.objects.select_related('actor').filter(recipient=user, type="comment", unread=True)[:7]
         serializer = NotificationSerializer(notifications, many=True)
@@ -19,7 +27,7 @@ class NotificationConsumer(AsyncJsonWebsocketConsumer):
             'command': 'notifications',
             'notifications': json.dumps(serializer.data)
         }
-        await self.send_json(content)
+        self.send_json(content)
 
     async def connect(self):
         user = self.scope['user']

@@ -1,9 +1,11 @@
+import json
+
+from asgiref.sync import async_to_sync
+from channels.generic.websocket import WebsocketConsumer
 from channels.layers import get_channel_layer
 from django.contrib.auth import get_user_model
-from asgiref.sync import async_to_sync, sync_to_async
-from channels.generic.websocket import WebsocketConsumer, JsonWebsocketConsumer, AsyncJsonWebsocketConsumer
-import json
 from django.db.models import Q
+
 from .models import Message, Room
 
 User = get_user_model()
