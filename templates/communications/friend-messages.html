@@ -16,7 +16,7 @@
                                         <ul class="naves">
                                             <li>
                                                 <i class="ti-clipboard"></i>
-                                                <a href="newsfeed.html" title="">News feed</a>
+                                                <a href="{% url 'core:home' %}" title="">News feed</a>
                                             </li>
                                             <li>
                                                 <i class="ti-mouse-alt"></i>
@@ -26,25 +26,33 @@
                                                 <i class="ti-user"></i>
                                                 <a href="timeline-friends.html" title="">friends</a>
                                             </li>
-                                            <li>
-                                                <i class="ti-image"></i>
-                                                <a href="timeline-photos.html" title="">images</a>
-                                            </li>
                                         </ul>
                                     </div><!-- Shortcuts -->
                                 </aside>
                             </div><!-- sidebar -->
                             <div class="col-lg-6">
                                 <div class="central-meta">
-                                    <div class="messages">
+                                    <div class="messages" id="messages">
                                         <h5 class="f-title"><i class="ti-bell"></i>All Messages </h5>
-                                        <div class="message-box">
-                                            <ul class="peoples">
+                                        <div class="message-box row">
+                                            <ul class="peoples col-md-3">
                                                 {% for friend in friends %}
                                                     <li>
                                                         <figure>
-                                                            <img src="images/resources/friend-avatar2.jpg" alt="">
-                                                            <span class="status f-online"></span>
+                                                            {% if friend.user.username == request.user.username %}
+                                                                {% if friend.friend.gender == 'male' %}
+                                                                    <img src="{% static 'images/male.jpg' %}" alt="male">
+                                                                {% else %}
+                                                                    <img src="{% static 'images/female.png' %}" alt="female">
+                                                                {% endif %}
+                                                            {% else %}
+                                                                {% if friend.user.gender == 'male' %}
+                                                                    <img src="{% static 'images/male.jpg' %}" alt="male">
+                                                                {% else %}
+                                                                    <img src="{% static 'images/female.png' %}" alt="female">
+                                                                {% endif %}
+                                                            {% endif %}
+                                                            {#<span class="status f-online"></span>#}
                                                         </figure>
                                                         <div class="people-name">
                                                             {% if friend.user.username == request.user.username %}
@@ -56,9 +64,15 @@
                                                     </li>
                                                 {% endfor %}
                                             </ul>
-                                            <div class="peoples-mesg-box">
+                                            <div class="peoples-mesg-box col-md-9">
                                                 <div class="conversation-head">
-                                                    <figure><img src="images/resources/friend-avatar.jpg" alt=""></figure>
+                                                    <figure>
+                                                        {% if friend_user.gender == 'male' %}
+                                                            <img src="{% static 'images/male.jpg' %}" alt="male">
+                                                        {% else %}
+                                                            <img src="{% static 'images/female.png' %}" alt="female">
+                                                        {% endif %}
+                                                    </figure>
                                                     <span>Chat with {{ friend_name_json|slice:"1:-1" }}</span>
                                                 </div>
                                                 <ul class="chatting-area">
@@ -179,16 +193,23 @@
 
         function createMessage(data) {
             let author = data['author'];
-            let user_class = "";
+            let user_class;
+            let gender_image;
 
             if (author === username) {
                 user_class = "me";
+                if (data['author_gender'] === 'male') gender_image = "{% static 'images/male.jpg' %}";
+                else gender_image = "{% static 'images/female.png' %}"
             } else {
                 user_class = "you";
+                if (data['author_gender'] === 'male') gender_image = "{% static 'images/male.jpg' %}";
+                else gender_image = "{% static 'images/female.png' %}"
             }
 
             let message = `<li class="${user_class}">
-                                <figure><img src="images/resources/userlist-1.jpg" alt=""></figure>
+                                <figure>
+                                    <img src="${gender_image}" alt="">
+                                </figure>
                                 <p>${data.content}</p>
                             </li>`;
 

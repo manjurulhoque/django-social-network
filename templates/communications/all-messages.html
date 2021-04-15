@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
 
@@ -33,13 +34,25 @@
                                 <div class="central-meta">
                                     <div class="messages">
                                         <h5 class="f-title"><i class="ti-bell"></i>All Messages </h5>
-                                        <div class="message-box">
-                                            <ul class="peoples">
+                                        <div class="message-box row">
+                                            <ul class="peoples col-md-3">
                                                 {% for friend in friends %}
                                                     <li>
                                                         <figure>
-                                                            <img src="images/resources/friend-avatar2.jpg" alt="">
-                                                            <span class="status f-online"></span>
+                                                            {% if friend.user.username == request.user.username %}
+                                                                {% if friend.friend.gender == 'male' %}
+                                                                    <img src="{% static 'images/male.jpg' %}" alt="male">
+                                                                {% else %}
+                                                                    <img src="{% static 'images/female.png' %}" alt="female">
+                                                                {% endif %}
+                                                            {% else %}
+                                                                {% if friend.user.gender == 'male' %}
+                                                                    <img src="{% static 'images/male.jpg' %}" alt="male">
+                                                                {% else %}
+                                                                    <img src="{% static 'images/female.png' %}" alt="female">
+                                                                {% endif %}
+                                                            {% endif %}
+                                                            {#<span class="status f-online"></span>#}
                                                         </figure>
                                                         <div class="people-name">
                                                             {% if friend.user.username == request.user.username %}
@@ -51,50 +64,50 @@
                                                     </li>
                                                 {% endfor %}
                                             </ul>
-                                            <div class="peoples-mesg-box">
+                                            <div class="peoples-mesg-box col-md-9">
                                                 <div class="text-center">
                                                     Select message to start conversation
                                                 </div>
-{#                                                <div class="conversation-head">#}
-{#                                                    <figure><img src="images/resources/friend-avatar.jpg" alt=""></figure>#}
-{#                                                    <span>jason bourne <i>online</i></span>#}
-{#                                                </div>#}
-{#                                                <ul class="chatting-area">#}
-{#                                                    <li class="you">#}
-{#                                                        <figure><img src="images/resources/userlist-2.jpg" alt=""></figure>#}
-{#                                                        <p>what's liz short for? :)</p>#}
-{#                                                    </li>#}
-{#                                                    <li class="me">#}
-{#                                                        <figure><img src="images/resources/userlist-1.jpg" alt=""></figure>#}
-{#                                                        <p>Elizabeth lol</p>#}
-{#                                                    </li>#}
-{#                                                    <li class="me">#}
-{#                                                        <figure><img src="images/resources/userlist-1.jpg" alt=""></figure>#}
-{#                                                        <p>wanna know whats my second guess was?</p>#}
-{#                                                    </li>#}
-{#                                                    <li class="you">#}
-{#                                                        <figure><img src="images/resources/userlist-2.jpg" alt=""></figure>#}
-{#                                                        <p>yes</p>#}
-{#                                                    </li>#}
-{#                                                    <li class="me">#}
-{#                                                        <figure><img src="images/resources/userlist-1.jpg" alt=""></figure>#}
-{#                                                        <p>Disney's the lizard king</p>#}
-{#                                                    </li>#}
-{#                                                    <li class="me">#}
-{#                                                        <figure><img src="images/resources/userlist-1.jpg" alt=""></figure>#}
-{#                                                        <p>i know him 5 years ago</p>#}
-{#                                                    </li>#}
-{#                                                    <li class="you">#}
-{#                                                        <figure><img src="images/resources/userlist-2.jpg" alt=""></figure>#}
-{#                                                        <p>coooooooooool dude ;)</p>#}
-{#                                                    </li>#}
-{#                                                </ul>#}
-{#                                                <div class="message-text-container">#}
-{#                                                    <form method="post">#}
-{#                                                        <textarea></textarea>#}
-{#                                                        <button title="send"><i class="fa fa-paper-plane"></i></button>#}
-{#                                                    </form>#}
-{#                                                </div>#}
+                                                {#                                                <div class="conversation-head">#}
+                                                {#                                                    <figure><img src="images/resources/friend-avatar.jpg" alt=""></figure>#}
+                                                {#                                                    <span>jason bourne <i>online</i></span>#}
+                                                {#                                                </div>#}
+                                                {#                                                <ul class="chatting-area">#}
+                                                {#                                                    <li class="you">#}
+                                                {#                                                        <figure><img src="images/resources/userlist-2.jpg" alt=""></figure>#}
+                                                {#                                                        <p>what's liz short for? :)</p>#}
+                                                {#                                                    </li>#}
+                                                {#                                                    <li class="me">#}
+                                                {#                                                        <figure><img src="images/resources/userlist-1.jpg" alt=""></figure>#}
+                                                {#                                                        <p>Elizabeth lol</p>#}
+                                                {#                                                    </li>#}
+                                                {#                                                    <li class="me">#}
+                                                {#                                                        <figure><img src="images/resources/userlist-1.jpg" alt=""></figure>#}
+                                                {#                                                        <p>wanna know whats my second guess was?</p>#}
+                                                {#                                                    </li>#}
+                                                {#                                                    <li class="you">#}
+                                                {#                                                        <figure><img src="images/resources/userlist-2.jpg" alt=""></figure>#}
+                                                {#                                                        <p>yes</p>#}
+                                                {#                                                    </li>#}
+                                                {#                                                    <li class="me">#}
+                                                {#                                                        <figure><img src="images/resources/userlist-1.jpg" alt=""></figure>#}
+                                                {#                                                        <p>Disney's the lizard king</p>#}
+                                                {#                                                    </li>#}
+                                                {#                                                    <li class="me">#}
+                                                {#                                                        <figure><img src="images/resources/userlist-1.jpg" alt=""></figure>#}
+                                                {#                                                        <p>i know him 5 years ago</p>#}
+                                                {#                                                    </li>#}
+                                                {#                                                    <li class="you">#}
+                                                {#                                                        <figure><img src="images/resources/userlist-2.jpg" alt=""></figure>#}
+                                                {#                                                        <p>coooooooooool dude ;)</p>#}
+                                                {#                                                    </li>#}
+                                                {#                                                </ul>#}
+                                                {#                                                <div class="message-text-container">#}
+                                                {#                                                    <form method="post">#}
+                                                {#                                                        <textarea></textarea>#}
+                                                {#                                                        <button title="send"><i class="fa fa-paper-plane"></i></button>#}
+                                                {#                                                    </form>#}
+                                                {#                                                </div>#}
                                             </div>
                                         </div>
                                     </div>

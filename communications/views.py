@@ -29,8 +29,10 @@ def messages_with_one_friend(request, friend):
     friends_one = Friend.objects.filter(friend=request.user, status='friend')
     friends_two = Friend.objects.filter(user=request.user, status='friend')
     friends = friends_one | friends_two
+    friend_user = User.objects.get(username=friend)
     return render(request, "communications/friend-messages.html", {
         'friends': friends,
+        'friend_user': friend_user,
         'friend_name_json': mark_safe(json.dumps(friend)),
         'username': mark_safe(json.dumps(request.user.username)),
     })
