@@ -36,3 +36,7 @@ def messages_with_one_friend(request, friend):
         'friend_name_json': mark_safe(json.dumps(friend)),
         'username': mark_safe(json.dumps(request.user.username)),
     })
+
+
+def video(request):
+    return render(request, 'communications/video.html')
