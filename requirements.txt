@@ -45,7 +45,7 @@ six==1.14.0
 sqlparse==0.4.1
 Twisted==21.2.0
 txaio==21.2.1
-urllib3==1.25.8
+urllib3==1.26.5
 webencodings==0.5.1
 whitenoise==5.2.0
 zope.interface==5.4.0
