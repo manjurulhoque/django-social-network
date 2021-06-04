@@ -19,7 +19,7 @@ cryptography==3.4.7
 daphne==3.0.2
 distlib==0.3.0
 distro==1.4.0
-Django==3.2
+Django==3.2.1
 djangorestframework==3.12.4
 gunicorn==20.1.0
 hiredis==2.0.0
