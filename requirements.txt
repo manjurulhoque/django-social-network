@@ -33,7 +33,7 @@ lockfile==0.12.2
 msgpack==1.0.3
 packaging==20.3
 pep517==0.8.2
-Pillow==8.2.0
+Pillow==9.0.0
 progress==1.5
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
