@@ -1,0 +1,322 @@
+{% load static %}
+
+<div class="fixed-sidebar">
+    <div class="fixed-sidebar-left sidebar--small" id="sidebar-left">
+
+        <a href="{% url 'core:home' %}" class="logo">
+            <div class="img-wrap">
+                <img src="{% static 'img/logo.webp' %}" alt="olympus">
+            </div>
+        </a>
+
+        <div class="mCustomScrollbar" data-mcs-theme="dark">
+            <ul class="left-menu">
+                <li>
+                    <a href="#" class="js-sidebar-open">
+                        <svg class="olymp-menu-icon left-menu-icon" data-toggle="tooltip" data-placement="right"
+                             data-original-title="OPEN MENU">
+                            <use xlink:href="#olymp-menu-icon"></use>
+                        </svg>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'core:home' %}">
+                        <svg class="olymp-newsfeed-icon left-menu-icon" data-toggle="tooltip" data-placement="right"
+                             data-original-title="NEWSFEED">
+                            <use xlink:href="#olymp-newsfeed-icon"></use>
+                        </svg>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'core:profile-details' user.id %}">
+                        <svg class="olymp-stats-icon left-menu-icon" data-toggle="tooltip" data-placement="right"
+                             data-original-title="My profile">
+                            <use xlink:href="#olymp-stats-icon"></use>
+                        </svg>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="fixed-sidebar-left sidebar--large" id="sidebar-left-1">
+        <a href="{% url 'core:home' %}" class="logo">
+            <div class="img-wrap">
+                <img src="{% static 'img/logo.webp' %}" alt="olympus">
+            </div>
+            <div class="title-block">
+                <h6 class="logo-title">olympus</h6>
+            </div>
+        </a>
+
+        <div class="mCustomScrollbar" data-mcs-theme="dark">
+            <ul class="left-menu">
+                <li>
+                    <a href="#" class="js-sidebar-open">
+                        <svg class="olymp-close-icon left-menu-icon">
+                            <use xlink:href="#olymp-close-icon"></use>
+                        </svg>
+                        <span class="left-menu-title">Collapse Menu</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'core:home' %}">
+                        <svg class="olymp-newsfeed-icon left-menu-icon" data-toggle="tooltip" data-placement="right"
+                             data-original-title="NEWSFEED">
+                            <use xlink:href="#olymp-newsfeed-icon"></use>
+                        </svg>
+                        <span class="left-menu-title">Newsfeed</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'core:profile-details' user.id %}">
+                        <svg class="olymp-stats-icon left-menu-icon" data-toggle="tooltip" data-placement="right"
+                             data-original-title="My profile">
+                            <use xlink:href="#olymp-stats-icon"></use>
+                        </svg>
+                        <span class="left-menu-title">My profile</span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+</div>
+
+<!-- ... end Fixed Sidebar Left -->
+
+<!-- Fixed Sidebar Left -->
+
+<div class="fixed-sidebar fixed-sidebar-responsive">
+
+    <div class="fixed-sidebar-left sidebar--small" id="sidebar-left-responsive">
+        <a href="{% url 'core:home' %}" class="logo js-sidebar-open">
+            <img src="{% static 'img/logo.webp' %}" alt="olympus">
+        </a>
+    </div>
+
+    <div class="fixed-sidebar-left sidebar--large" id="sidebar-left-1-responsive">
+        <a href="{% url 'core:home' %}" class="logo">
+            <div class="img-wrap">
+                <img src="{% static 'img/logo.webp' %}" alt="olympus">
+            </div>
+            <div class="title-block">
+                <h6 class="logo-title">olympus</h6>
+            </div>
+        </a>
+
+        <div class="mCustomScrollbar" data-mcs-theme="dark">
+
+            <div class="control-block">
+                <div class="author-page author vcard inline-items">
+                    <div class="author-thumb">
+                        <img alt="author" src="{{ user.avatar.url }}" style="width: 42px; height: 42px" class="avatar">
+                        <span class="icon-status online"></span>
+                    </div>
+                    <a href="{% url 'custom_accounts:dashboard' %}" class="author-name fn">
+                        <div class="author-title">
+                            {{ user.username }}
+                            <svg class="olymp-dropdown-arrow-icon">
+                                <use xlink:href="#olymp-dropdown-arrow-icon"></use>
+                            </svg>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="ui-block-title ui-block-title-small">
+                <h6 class="title">MAIN SECTIONS</h6>
+            </div>
+
+            <ul class="left-menu">
+                <li>
+                    <a href="#" class="js-sidebar-open">
+                        <svg class="olymp-close-icon left-menu-icon">
+                            <use xlink:href="#olymp-close-icon"></use>
+                        </svg>
+                        <span class="left-menu-title">Collapse Menu</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'core:home' %}">
+                        <svg class="olymp-newsfeed-icon left-menu-icon" data-toggle="tooltip" data-placement="right"
+                             data-original-title="NEWSFEED">
+                            <use xlink:href="#olymp-newsfeed-icon"></use>
+                        </svg>
+                        <span class="left-menu-title">Newsfeed</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="ui-block-title ui-block-title-small">
+                <h6 class="title">YOUR ACCOUNT</h6>
+            </div>
+
+            <ul class="account-settings">
+                <li>
+                    <a href="{% url 'custom_accounts:dashboard' %}">
+
+                        <svg class="olymp-menu-icon">
+                            <use xlink:href="#olymp-menu-icon"></use>
+                        </svg>
+
+                        <span>Profile Settings</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'account_logout' %}">
+                        <svg class="olymp-logout-icon">
+                            <use xlink:href="#olymp-logout-icon"></use>
+                        </svg>
+
+                        <span>Log Out</span>
+                    </a>
+                </li>
+            </ul>
+
+            <ul class="about-olympus">
+                <li>
+                    <a href="{% url 'core:terms-conditions' %}">
+                        <span>Terms and Conditions</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'core:contact' %}">
+                        <span>Contact us</span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+</div>
+
+<!-- ... end Fixed Sidebar Left -->
+
+<!-- Header-BP -->
+
+<header class="header" id="site-header">
+
+    <div class="page-title" style="cursor: pointer;" data-link="{% url 'core:home' %}"
+         onclick="window.location.href=$(this).data('link');">
+        <h6>olympus</h6>
+    </div>
+
+    <div class="header-content-wrapper">
+        <form class="search-bar w-search notification-list friend-requests">
+            <div class="form-group with-button">
+                <input class="form-control js-user-searchh" placeholder="Search here people" type="text">
+                <button>
+                    <svg class="olymp-magnifying-glass-icon">
+                        <use xlink:href="#olymp-magnifying-glass-icon"></use>
+                    </svg>
+                </button>
+            </div>
+        </form>
+
+        <div class="control-block">
+
+            <div class="author-page author vcard inline-items more">
+                <div class="author-thumb">
+                    <img alt="author" src="{{ user.avatar.url }}" style="width: 42px; height: 42px" class="avatar">
+                    <span class="icon-status online"></span>
+                    <div class="more-dropdown more-with-triangle">
+                        <div class="mCustomScrollbar" data-mcs-theme="dark">
+                            <div class="ui-block-title ui-block-title-small">
+                                <h6 class="title">Your Account</h6>
+                            </div>
+
+                            <ul class="account-settings">
+                                <li>
+                                    <a href="{% url 'custom_accounts:dashboard' %}">
+
+                                        <svg class="olymp-menu-icon">
+                                            <use xlink:href="#olymp-menu-icon"></use>
+                                        </svg>
+
+                                        <span>Profile Settings</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'account_logout' %}">
+                                        <svg class="olymp-logout-icon">
+                                            <use xlink:href="#olymp-logout-icon"></use>
+                                        </svg>
+
+                                        <span>Log Out</span>
+                                    </a>
+                                </li>
+                            </ul>
+
+                            <div class="ui-block-title ui-block-title-small">
+                                <h6 class="title">About olympus</h6>
+                            </div>
+
+                            <ul>
+                                <li>
+                                    <a href="{% url 'core:terms-conditions' %}">
+                                        <span>Terms and Conditions</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'core:contact' %}">
+                                        <span>Contact us</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <a href="#" class="author-name fn">
+                    <div class="author-title">
+                        {{ user.get_full_name }}
+                        <svg class="olymp-dropdown-arrow-icon">
+                            <use xlink:href="#olymp-dropdown-arrow-icon"></use>
+                        </svg>
+                    </div>
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+</header>
+
+<!-- ... end Header-BP -->
+
+<!-- Responsive Header-BP -->
+
+<header class="header header-responsive" id="site-header-responsive">
+
+    <div class="header-content-wrapper">
+        <ul class="nav nav-tabs mobile-app-tabs" role="tablist">
+
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#search" role="tab">
+                    <svg class="olymp-magnifying-glass-icon">
+                        <use xlink:href="#olymp-magnifying-glass-icon"></use>
+                    </svg>
+                    <svg class="olymp-close-icon">
+                        <use xlink:href="#olymp-close-icon"></use>
+                    </svg>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Tab panes -->
+    <div class="tab-content tab-content-responsive">
+
+        <div class="tab-pane " id="search" role="tabpanel">
+
+            <form class="search-bar w-search notification-list friend-requests">
+                <div class="form-group with-button">
+                    <input class="form-control js-user-search" placeholder="Search here people or pages..." type="text">
+                </div>
+            </form>
+        </div>
+    </div>
+</header>
+
+<!-- ... end Responsive Header-BP -->
+<div class="header-spacer"></div>

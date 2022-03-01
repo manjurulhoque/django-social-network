@@ -37,6 +37,7 @@ class RegisterView(CreateView):
             password = user_form.cleaned_data.get("password1")
             user.set_password(password)
             user.save()
+            messages.success(request, 'Successfully registered')
             return redirect('accounts:login')
         else:
             print(user_form.errors)
