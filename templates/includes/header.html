@@ -28,7 +28,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{% url 'core:profile-details' user.id %}">
+                    <a href="">
                         <svg class="olymp-stats-icon left-menu-icon" data-toggle="tooltip" data-placement="right"
                              data-original-title="My profile">
                             <use xlink:href="#olymp-stats-icon"></use>
@@ -69,7 +69,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{% url 'core:profile-details' user.id %}">
+                    <a href="">
                         <svg class="olymp-stats-icon left-menu-icon" data-toggle="tooltip" data-placement="right"
                              data-original-title="My profile">
                             <use xlink:href="#olymp-stats-icon"></use>
@@ -113,7 +113,7 @@
                         <img alt="author" src="{{ user.avatar.url }}" style="width: 42px; height: 42px" class="avatar">
                         <span class="icon-status online"></span>
                     </div>
-                    <a href="{% url 'custom_accounts:dashboard' %}" class="author-name fn">
+                    <a href="" class="author-name fn">
                         <div class="author-title">
                             {{ user.username }}
                             <svg class="olymp-dropdown-arrow-icon">
@@ -154,7 +154,7 @@
 
             <ul class="account-settings">
                 <li>
-                    <a href="{% url 'custom_accounts:dashboard' %}">
+                    <a href="">
 
                         <svg class="olymp-menu-icon">
                             <use xlink:href="#olymp-menu-icon"></use>
@@ -164,7 +164,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{% url 'account_logout' %}">
+                    <a href="{% url 'accounts:logout' %}">
                         <svg class="olymp-logout-icon">
                             <use xlink:href="#olymp-logout-icon"></use>
                         </svg>
@@ -176,12 +176,12 @@
 
             <ul class="about-olympus">
                 <li>
-                    <a href="{% url 'core:terms-conditions' %}">
+                    <a href="">
                         <span>Terms and Conditions</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{% url 'core:contact' %}">
+                    <a href="">
                         <span>Contact us</span>
                     </a>
                 </li>
@@ -228,7 +228,7 @@
 
                             <ul class="account-settings">
                                 <li>
-                                    <a href="{% url 'custom_accounts:dashboard' %}">
+                                    <a href="">
 
                                         <svg class="olymp-menu-icon">
                                             <use xlink:href="#olymp-menu-icon"></use>
@@ -238,7 +238,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="{% url 'account_logout' %}">
+                                    <a href="{% url 'accounts:logout' %}">
                                         <svg class="olymp-logout-icon">
                                             <use xlink:href="#olymp-logout-icon"></use>
                                         </svg>
@@ -254,12 +254,12 @@
 
                             <ul>
                                 <li>
-                                    <a href="{% url 'core:terms-conditions' %}">
+                                    <a href="">
                                         <span>Terms and Conditions</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="{% url 'core:contact' %}">
+                                    <a href="">
                                         <span>Contact us</span>
                                     </a>
                                 </li>
