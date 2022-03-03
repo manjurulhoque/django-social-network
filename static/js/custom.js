@@ -23,7 +23,7 @@ $(function () {
         return cookieValue;
     }
 
-    var csrftoken = getCookie('csrftoken');
+    let csrftoken = getCookie('csrftoken');
 
     function csrfSafeMethod(method) {
         // these HTTP methods do not require CSRF protection
@@ -40,7 +40,7 @@ $(function () {
     // end session cookie data setup.
 
     // declare an empty array for potential uploaded files
-    var fileItemList = []
+    let fileItemList = []
 
     // auto-upload on file input change.
     $(document).on('submit', '#post-form', function (event) {
