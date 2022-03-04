@@ -36,8 +36,9 @@
                                         <img src="{{ user.profile.profile_image.url }}" alt="author" class="author-img">
                                     </div>
                                     <div class="form-group with-icon label-floating is-empty">
-                                        <label class="control-label">Share what you are thinking here...</label>
-                                        <textarea class="form-control" placeholder="" name="body"></textarea>
+                                        <label class="control-label" for="body">Share what you are thinking
+                                            here...</label>
+                                        <textarea class="form-control" placeholder="" name="body" id="body"></textarea>
                                     </div>
                                     <div class="add-options-message">
                                         <a href="#" class="options-message" data-toggle="tooltip" data-placement="top"
@@ -62,7 +63,8 @@
                                         </a>
 
                                         <button class="btn btn-primary btn-md-2">Post Status</button>
-                                        <button class="btn btn-md-2 btn-border-think btn-transparent c-grey">Preview
+                                        <button class="btn btn-md-2 btn-border-think btn-transparent c-grey">
+                                            Preview
                                         </button>
 
                                     </div>
@@ -80,11 +82,16 @@
                             <article class="hentry post">
 
                                 <div class="post__author author vcard inline-items">
-                                    <img src="{{ post.user.profile.profile_image.url }}" alt="author"
-                                         class="author-img">
+                                    {% if post.user.profile.profile_image.url %}
+                                        <img src="{{ post.user.profile.profile_image.url }}" alt="author"
+                                             class="author-img">
+                                    {% else %}
+                                        <img src="{% static 'img/bg-birthdays.jpg' %}" alt="author"
+                                             class="author-img">
+                                    {% endif %}
 
                                     <div class="author-date">
-                                        <a class="h6 post__author-name fn" href="#">{{ post.user.username }}</a>
+                                        <a class="h6 post__author-name fn" href="#">{{ post.user.get_full_name }}</a>
                                         <div class="post__date">
                                             <time class="published" datetime="2004-07-24T18:18">
                                                 Posted {{ post.get_date }}
@@ -207,12 +214,17 @@
                                 {% for comment in post.comments.all %}
                                     <li class="comment-item">
                                         <div class="post__author author vcard inline-items">
-                                            <img src="{{ comment.user.profile.profile_image.url }}" alt="author"
-                                                 class="author-img">
+                                            {% if comment.user.profile.profile_image.url %}
+                                                <img src="{{ comment.user.profile.profile_image.url }}" alt="author"
+                                                     class="author-img">
+                                            {% else %}
+                                                <img src="{% static 'img/bg-birthdays.jpg' %}" alt="author"
+                                                     class="author-img">
+                                            {% endif %}
 
                                             <div class="author-date">
                                                 <a class="h6 post__author-name fn" href="">
-                                                    {{ comment.user.username }}
+                                                    {{ comment.user.get_full_name }}
                                                 </a>
                                                 <div class="post__date">
                                                     <time class="published" datetime="2004-07-24T18:18">
@@ -230,24 +242,25 @@
 
                                         <p>{{ comment.content }}</p>
 
-{#                                        <a href="#" class="post-add-icon inline-items">#}
-{#                                            <svg class="olymp-heart-icon">#}
-{#                                                <use xlink:href="svg-icons/sprites/icons.svg#olymp-heart-icon"></use>#}
-{#                                            </svg>#}
-{#                                            <span>3</span>#}
-{#                                        </a>#}
-{#                                        <a href="#" class="reply">Reply</a>#}
+                                        {#                                        <a href="#" class="post-add-icon inline-items">#}
+                                        {#                                            <svg class="olymp-heart-icon">#}
+                                        {#                                                <use xlink:href="svg-icons/sprites/icons.svg#olymp-heart-icon"></use>#}
+                                        {#                                            </svg>#}
+                                        {#                                            <span>3</span>#}
+                                        {#                                        </a>#}
+                                        {#                                        <a href="#" class="reply">Reply</a>#}
                                     </li>
                                 {% endfor %}
                             </ul>
 
                             <!-- ... end Comments -->
 
-{#                            <a href="#" class="more-comments">View more comments <span>+</span></a>#}
+                            {#                            <a href="#" class="more-comments">View more comments <span>+</span></a>#}
 
                             <!-- Comment Form  -->
 
-                            <form class="comment-form inline-items" method="post" action="{% url 'newsfeed:comment-create' post.id %}">
+                            <form class="comment-form inline-items" method="post"
+                                  action="{% url 'newsfeed:comment-create' post.id %}">
                                 {% csrf_token %}
 
                                 <div class="post__author author vcard inline-items">
@@ -265,10 +278,9 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <button class="btn btn-md-2 btn-primary">Post Comment</button>
-
-                                <button class="btn btn-md-2 btn-border-think c-grey btn-transparent custom-color">Cancel
+                                <button class="btn btn-md-2 btn-border-think c-grey btn-transparent custom-color">
+                                    Cancel
                                 </button>
 
                             </form>
