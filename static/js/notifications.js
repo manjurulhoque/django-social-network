@@ -1,5 +1,5 @@
 let csrfmiddlewaretoken = document.getElementsByName("csrfmiddlewaretoken")[0].value;
-$('.nearby-contct .add-friend').click(function () {
+$('.notification-icon .add-friend').click(function () {
 
     $.ajaxSetup({
         headers: {
