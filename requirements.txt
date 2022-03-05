@@ -21,7 +21,9 @@ daphne==3.0.2
 distlib==0.3.0
 distro==1.4.0
 Django==4.0
+django-activity-stream==1.4.0
 djangorestframework==3.12.4
+Faker==13.3.0
 gunicorn==20.1.0
 hiredis==2.0.0
 html5lib==1.0.1
@@ -41,6 +43,7 @@ pycparser==2.20
 PyHamcrest==2.0.2
 pyOpenSSL==21.0.0
 pyparsing==2.4.6
+python-dateutil==2.8.2
 pytoml==0.1.21
 pytz==2021.1
 requests==2.22.0
