@@ -59,6 +59,7 @@ function accept(li) {
 let friendRequestNotificationSocket = new ReconnectingWebSocket(
     'ws://' + window.location.host +
     '/ws/friend-request-notification/');
+
 friendRequestNotificationSocket.onopen = function (e) {
     fetchFriendRequests();
 };
@@ -85,6 +86,7 @@ function createNotification(notification) {
 
 friendRequestNotificationSocket.onmessage = function (event) {
     let data = JSON.parse(event.data);
+    console.log(data)
     if (data['command'] === 'notifications') {
         let notifications = JSON.parse(data['notifications']);
         $('#total-friend-notifications').text(notifications.length);
@@ -129,7 +131,8 @@ likeCommentNotificationSocket.onopen = function (e) {
 likeCommentNotificationSocket.onmessage = function (event) {
     let data = JSON.parse(event.data);
     if (data['command'] === 'notifications') {
-        let notifications = JSON.parse(data['notifications']);
+        console.log(data)
+        let notifications = data['notifications'];
         $('#total-like-comment-notifications').text(notifications.length);
         for (let i = 0; i < notifications.length; i++) {
             createLikeCommentNotification(notifications[i]);

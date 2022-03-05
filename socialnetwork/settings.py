@@ -25,8 +25,6 @@ INSTALLED_APPS = [
     'friends',
     'notifications',
     'communications',
-
-    'actstream',
 ]
 
 MIDDLEWARE = [

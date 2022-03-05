@@ -1,8 +1,12 @@
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
 from django.conf import settings
 from django.db import models
 
 from accounts.models import User
 from django.utils.timezone import now
+
+from friends.managers import NotificationManager
 
 
 class Friend(models.Model):
@@ -15,25 +19,26 @@ class Friend(models.Model):
 
 class CustomNotification(models.Model):
     type = models.CharField(default='friend', max_length=30)
-
     recipient = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         blank=False,
         related_name='notifications',
         on_delete=models.CASCADE
     )
-    unread = models.BooleanField(default=True, blank=False, db_index=True)
-
+    is_read = models.BooleanField(default=True, blank=False, db_index=True)
     actor = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         blank=False,
         on_delete=models.CASCADE
     )
-
+    object_id = models.PositiveIntegerField(null=True, blank=True)
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, null=True, blank=True)
+    obj = GenericForeignKey('content_type', 'object_id')
+    url = models.TextField(blank=True, null=True)
     verb = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
-
     timestamp = models.DateTimeField(default=now, db_index=True)
-
     deleted = models.BooleanField(default=False, db_index=True)
     emailed = models.BooleanField(default=False, db_index=True)
+
+    objects = NotificationManager()
