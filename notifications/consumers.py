@@ -3,6 +3,7 @@ import json
 from channels.db import database_sync_to_async
 from channels.generic.websocket import AsyncJsonWebsocketConsumer
 from django.contrib.auth import get_user_model
+from django.contrib.auth.models import AnonymousUser
 from django.core import serializers
 
 from friends.models import CustomNotification
@@ -21,8 +22,10 @@ class NotificationConsumer(AsyncJsonWebsocketConsumer):
     @database_sync_to_async
     def fetch_notifications(self):
         user = self.scope['user']
+        if user.is_anonymous:
+            return {'type': 'anonymous_user'}
         notifications = CustomNotification.objects.select_related('actor').filter(recipient=user, verb="comment",
-                                                                                  is_read=False)[:7]
+                                                                                  is_read=False)[:4]
         serializer = NotificationSerializer(notifications, many=True)
         content = {
             'type': 'all_notifications',
@@ -55,6 +58,9 @@ class NotificationConsumer(AsyncJsonWebsocketConsumer):
         await self.send_json(event)
 
     async def all_notifications(self, event):
+        await self.send_json(event)
+
+    async def anonymous_user(self, event):
         await self.send_json(event)
 
     async def receive(self, text_data=None, bytes_data=None, **kwargs):

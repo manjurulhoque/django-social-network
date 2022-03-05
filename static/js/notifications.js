@@ -112,15 +112,33 @@ function fetchNotifications() {
 }
 
 function createLikeCommentNotification(notification) {
-    let single = `<li>
-                        <a href="#" title="">
-                            <img src="images/resources/thumb-1.jpg" alt="">
-                            <div class="mesg-meta">
-                                <span>${notification.actor.username} ${notification.verb}</span>
-                                <i>2 min ago</i>
-                            </div>
-                        </a>
-                    </li>`;
+    // let single = `<li>
+    //                     <a href="#" title="">
+    //                         <img src="images/resources/thumb-1.jpg" alt="">
+    //                         <div class="mesg-meta">
+    //                             <span>${notification.actor.username} ${notification.verb}</span>
+    //                             <i>2 min ago</i>
+    //                         </div>
+    //                     </a>
+    //                 </li>`;
+    let single = `
+                <li>
+                    <div class="author-thumb">
+<!--                        <img src="img/avatar62-sm.jpg" alt="author">-->
+                    </div>
+                    <div class="notification-event">
+                        <div><a href="#" class="h6 notification-friend">${notification.actor.username}</a> ${notification.description} <a href="#" class="notification-link">profile status</a>.</div>
+                        <span class="notification-date"><time class="entry-date updated" datetime="2004-07-24T18:18">4 hours ago</time></span>
+                    </div>
+                    <span class="notification-icon">
+                        <svg class="olymp-comments-post-icon"><use xlink:href="#olymp-comments-post-icon"></use></svg>
+                    </span>
+                        
+                    <div class="more">
+                        <svg class="olymp-three-dots-icon"><use xlink:href="#olymp-three-dots-icon"></use></svg>
+                        <svg class="olymp-little-delete"><use xlink:href="#olymp-little-delete"></use></svg>
+                    </div>
+                </li>`;
     $('#like-comment-menu').prepend(single);
 }
 
@@ -132,8 +150,9 @@ likeCommentNotificationSocket.onmessage = function (event) {
     let data = JSON.parse(event.data);
     if (data['command'] === 'notifications') {
         console.log(data)
+        let unread_notifications = data['unread_notifications'];
+        $('#notification-count').text(unread_notifications);
         let notifications = data['notifications'];
-        $('#total-like-comment-notifications').text(notifications.length);
         for (let i = 0; i < notifications.length; i++) {
             createLikeCommentNotification(notifications[i]);
         }

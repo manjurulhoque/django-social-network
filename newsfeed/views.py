@@ -51,7 +51,8 @@ def create_comment(request, post_id=None):
             channel, {
                 "type": "notify",
                 "command": "new_like_comment_notification",
-                "notification": json.dumps(NotificationSerializer(notification).data)
+                "notification": json.dumps(NotificationSerializer(notification).data),
+                'unread_notifications': CustomNotification.objects.user_unread_notification_count(request.user)
             }
         )
         return redirect(reverse_lazy('core:home'))

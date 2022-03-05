@@ -25,7 +25,7 @@ class CustomNotification(models.Model):
         related_name='notifications',
         on_delete=models.CASCADE
     )
-    is_read = models.BooleanField(default=True, blank=False, db_index=True)
+    is_read = models.BooleanField(default=False, blank=False, db_index=True)
     actor = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         blank=False,
