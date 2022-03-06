@@ -18,7 +18,7 @@ class FindFriendsListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         current_user_friends = self.request.user.friends.values('id')
-        sent_request = list(Friend.objects.filter(user=self.request.user).values_list('friend_id', flat=True))
+        sent_request = list(Friend.objects.filter(to_user=self.request.user).values_list('from_user_id', flat=True))
         users = User.objects.exclude(id__in=current_user_friends).exclude(id__in=sent_request).exclude(
             id=self.request.user.id)
         return users

@@ -1,0 +1,16 @@
+from django.dispatch import Signal
+
+friendship_request_created = Signal()
+friendship_request_rejected = Signal()
+friendship_request_canceled = Signal()
+friendship_request_viewed = Signal()
+friendship_request_accepted = Signal()
+friendship_removed = Signal()
+follower_created = Signal()
+follower_removed = Signal()
+followee_created = Signal()
+followee_removed = Signal()
+following_created = Signal()
+following_removed = Signal()
+block_created = Signal()
+block_removed = Signal()
