@@ -16,10 +16,10 @@ $('.notification-icon .add-friend').click(function () {
         url: url,
         dataType: 'json',
         success: function (res) {
-            if (res.status === false) {
-            }
-            if (res.status === true) {
-                // $('.add-friend').text('Request Sent');
+            if (res.status) {
+                toastr.success('Friend request sent');
+            } else {
+                toastr.info('Something went wrong');
             }
         },
         error: function (err) {

@@ -8,7 +8,8 @@ from django.core.exceptions import ValidationError
 from django.db.models import Q
 
 from friends.exceptions import AlreadyFriendsError, AlreadyExistsError
-from friends.signals import friendship_request_created, friendship_removed
+from friends.signals import friendship_request_created, friendship_removed, friendship_request_viewed, \
+    friendship_request_canceled, friendship_request_accepted
 
 from accounts.models import User
 
@@ -109,7 +110,8 @@ class FriendshipManager(models.Manager):
 
     def unrejected_request_count(self, user):
         """ Return a count of unrejected friendship requests """
-        count = FriendshipRequest.objects.select_related("from_user", "to_user").filter(to_user=user, rejected__isnull=True).count()
+        count = FriendshipRequest.objects.select_related("from_user", "to_user").filter(to_user=user,
+                                                                                        rejected__isnull=True).count()
         return count
 
     def add_friend(self, from_user, to_user, message=None):
@@ -197,6 +199,41 @@ class FriendshipRequest(models.Model):
 
     def __str__(self):
         return f"User #{self.from_user_id} friendship requested #{self.to_user_id}"
+
+    def accept(self):
+        """ Accept this friendship request """
+        Friend.objects.create(from_user=self.from_user, to_user=self.to_user)
+        Friend.objects.create(from_user=self.to_user, to_user=self.from_user)
+        friendship_request_accepted.send(
+            sender=self, from_user=self.from_user, to_user=self.to_user
+        )
+
+        self.delete()
+
+        # Delete any reverse requests
+        FriendshipRequest.objects.filter(
+            from_user=self.to_user, to_user=self.from_user
+        ).delete()
+
+        return True
+
+    def reject(self):
+        """ reject this friendship request """
+        self.rejected = timezone.now()
+        self.save()
+        return True
+
+    def cancel(self):
+        """ cancel this friendship request """
+        self.delete()
+        friendship_request_canceled.send(sender=self)
+        return True
+
+    def mark_viewed(self):
+        self.viewed = timezone.now()
+        friendship_request_viewed.send(sender=self)
+        self.save()
+        return True
 
 
 class Friend(models.Model):
