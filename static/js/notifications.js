@@ -86,7 +86,6 @@ function createNotification(notification) {
 
 friendRequestNotificationSocket.onmessage = function (event) {
     let data = JSON.parse(event.data);
-    console.log(data)
     if (data['command'] === 'notifications') {
         let notifications = JSON.parse(data['notifications']);
         $('#total-friend-notifications').text(notifications.length);
@@ -149,7 +148,6 @@ likeCommentNotificationSocket.onopen = function (e) {
 likeCommentNotificationSocket.onmessage = function (event) {
     let data = JSON.parse(event.data);
     if (data['command'] === 'notifications') {
-        console.log(data)
         let unread_notifications = data['unread_notifications'];
         $('#notification-count').text(unread_notifications);
         let notifications = data['notifications'];

@@ -58,6 +58,16 @@ class FriendshipManager(models.Manager):
 
         return requests
 
+    def got_friend_requests(self, user):
+        """ Return a list of friendship requests user got """
+        qs = (
+            FriendshipRequest.objects.select_related("from_user__profile", "to_user")
+                .filter(to_user=user)
+                .all()
+        )
+        unread_requests = list(qs)
+        return unread_requests
+
     def unread_requests(self, user):
         """ Return a list of unread friendship requests """
         qs = (

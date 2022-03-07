@@ -9,7 +9,7 @@ from django.db.models import Q
 
 from core.contants.common import FRIEND_REQUEST_VERB
 from .serializers import NotificationSerializer
-from .models import *
+from .models import FriendshipRequest, Friend, CustomNotification
 
 
 class FindFriendsListView(LoginRequiredMixin, ListView):
@@ -25,6 +25,18 @@ class FindFriendsListView(LoginRequiredMixin, ListView):
         users = User.objects.exclude(id__in=current_user_friends).exclude(id__in=sent_request).exclude(
             id=self.request.user.id)
         return users
+
+
+class FriendRequestsListView(LoginRequiredMixin, ListView):
+    """
+    Get all friend requests current user got
+    """
+    model = Friend
+    context_object_name = 'friend_requests'
+    template_name = "friends/friend-requests.html"
+
+    def get_queryset(self):
+        return Friend.objects.got_friend_requests(user=self.request.user)
 
 
 def send_request(request, username=None):
