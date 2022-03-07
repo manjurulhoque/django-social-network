@@ -66,11 +66,9 @@ def send_request(request, username=None):
 def accept_request(request, friend=None):
     if friend is not None:
         friend_user = User.objects.get(username=friend)
-        current_user = request.user
-        f = Friend.objects.filter(user=friend_user, friend=current_user, status='requested')[0]
-        f.status = "friend"
-        f.save()
-        CustomNotification.objects.filter(recipient=current_user, actor=friend_user).delete()
+        friend_request = FriendshipRequest.objects.get(to_user=request.user, from_user=friend_user)
+        friend_request.accept()
+        # CustomNotification.objects.filter(recipient=current_user, actor=friend_user).delete()
         data = {
             'status': True,
             'message': "You accepted friend request",

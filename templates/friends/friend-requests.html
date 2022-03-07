@@ -30,10 +30,17 @@
                                 </div>
                                 <span class="notification-icon">
                                     <a href="javascript:void(0)"
+                                       onclick="accept(this)"
                                        data-url="{% url 'friends:accept-request' friend_request.from_user.username %}"
-                                       class="add-butn add-friend accept-request" data-ripple=""
+                                       class="btn btn-success" data-ripple=""
                                        data-friend="{{ friend_request.from_user.username }}">
-                                        Accept Request
+                                        Accept Request {{ friend_request.from_user.id }}
+                                    </a>
+                                    <a href="javascript:void(0)"
+                                       data-url="{% url 'friends:accept-request' friend_request.from_user.username %}"
+                                       class="btn btn-danger" data-ripple=""
+                                       data-friend="{{ friend_request.from_user.username }}">
+                                        Reject Request
                                     </a>
                                 </span>
                             </li>

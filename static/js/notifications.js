@@ -44,14 +44,12 @@ function accept(li) {
         url: url,
         dataType: 'json',
         success: function (res) {
-            if (res.status === false) {
-            }
-            if (res.status === true) {
-
+            if (res.status) {
+                toastr.success(res.message);
             }
         },
         error: function (err) {
-            console.log(err);
+            toastr.warning(err);
         }
     });
 }
