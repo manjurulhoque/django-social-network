@@ -8,7 +8,7 @@ from django.views.generic import ListView
 from django.db.models import Q
 
 from core.contants.common import FRIEND_REQUEST_VERB
-from .serializers import NotificationSerializer
+from .serializers import NotificationSerializer, FriendshipRequestSerializer
 from .models import FriendshipRequest, Friend, CustomNotification
 
 
@@ -42,16 +42,14 @@ class FriendRequestsListView(LoginRequiredMixin, ListView):
 def send_request(request, username=None):
     if username is not None:
         friend_user = User.objects.get(username=username)
-        Friend.objects.add_friend(request.user, friend_user, message='Hi! I would like to add you')
-        notification = CustomNotification.objects.create(recipient=friend_user, actor=request.user,
-                                                         verb=FRIEND_REQUEST_VERB)
+        friend_request = Friend.objects.add_friend(request.user, friend_user, message='Hi! I would like to add you')
         channel_layer = get_channel_layer()
-        channel = "notifications_{}".format(friend_user.username)
+        channel = "all_friend_requests_{}".format(friend_user.username)
         async_to_sync(channel_layer.group_send)(
             channel, {
                 "type": "notify",  # method name
                 "command": "new_friend_request",
-                "notification": json.dumps(NotificationSerializer(notification).data)
+                "notification": FriendshipRequestSerializer(friend_request).data
             }
         )
         data = {

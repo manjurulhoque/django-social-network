@@ -28,14 +28,14 @@ $('.notification-icon .add-friend').click(function () {
     });
 });
 
-function accept(li) {
+function accept(element) {
     $.ajaxSetup({
         headers: {
             'X-CSRFToken': csrfmiddlewaretoken
         }
     });
 
-    let friend = $(li).data('friend');
+    let friend = $(element).data('friend');
 
     let url = `/accept-request/${friend}`;
 
@@ -79,7 +79,7 @@ function createNotification(notification) {
                             </div>
                         </div>
                         <br>
-                        <button class="btn btn-sm btn-success">
+                        <button class="btn btn-sm btn-success" onclick="accept(this)" data-friend="${notification.from_user.username}">
                             Accept
                         </button>
                         <button class="btn btn-sm btn-danger">
@@ -94,14 +94,14 @@ friendRequestNotificationSocket.onmessage = function (event) {
     console.log(data);
     if (data['command'] === "all_friend_requests") {
         let notifications = data['friend_requests'];
-        $('#total-friend-notifications').text(notifications.length);
+        $('#total-friend-requests').text(notifications.length);
         for (let i = 0; i < notifications.length; i++) {
             createNotification(notifications[i]);
         }
     } else if (data['command'] === 'new_friend_request') {
-        let notification = $('#total-friend-notifications');
-        notification.text(parseInt(notification.text() + 1));
-        createNotification(JSON.parse(data['notification']));
+        let notification = $('#total-friend-requests');
+        notification.text(parseInt(notification.text()) + 1);
+        createNotification(data['notification']);
     }
 };
 
