@@ -50,7 +50,7 @@ def send_request(request, username=None):
         async_to_sync(channel_layer.group_send)(
             channel, {
                 "type": "notify",  # method name
-                "command": "new_notification",
+                "command": "new_friend_request",
                 "notification": json.dumps(NotificationSerializer(notification).data)
             }
         )

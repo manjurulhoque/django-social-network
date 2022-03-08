@@ -63,34 +63,42 @@ friendRequestNotificationSocket.onopen = function (e) {
 };
 
 function fetchFriendRequests() {
-    friendRequestNotificationSocket.send(JSON.stringify({'command': 'fetch_friend_notifications'}));
+    // friendRequestNotificationSocket.send(JSON.stringify({'command': 'fetch_friend_requests'}));
 }
 
 function createNotification(notification) {
-    let single = `<li class="list">
-                       <a href="#" title="">
-                            <img src="images/resources/thumb-1.jpg" alt="">
-                            <div class="mesg-meta">
-                                <span>${notification.actor.username} ${notification.verb}</span>
-                                <button class="btn btn-primary btn-sm accept-request" onclick="accept(this)" data-friend="${notification.actor.username}">Accept</button>
-                                <button class="btn btn-danger btn-sm">Reject</button>
-                                <br>
-                                <i>2 min ago</i>
+    let single = `<li>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <img src="img/avatar55-sm.jpg" alt="author">
+                                </div>
+                                <div class="col-md-9">
+                                    <a href="#" class="h6 notification-friend">${notification.from_user.first_name} ${notification.from_user.last_name}</a>
+                                </div>
                             </div>
-                       </a>
-                   </li>`;
-    $('#friend-menu').prepend(single);
+                        </div>
+                        <br>
+                        <button class="btn btn-sm btn-success">
+                            Accept
+                        </button>
+                        <button class="btn btn-sm btn-danger">
+                            Reject
+                        </button>
+                    </li>`;
+    $('#friend-requests').prepend(single);
 }
 
 friendRequestNotificationSocket.onmessage = function (event) {
     let data = JSON.parse(event.data);
-    if (data['command'] === 'notifications') {
-        let notifications = JSON.parse(data['notifications']);
+    console.log(data);
+    if (data['command'] === "all_friend_requests") {
+        let notifications = data['friend_requests'];
         $('#total-friend-notifications').text(notifications.length);
         for (let i = 0; i < notifications.length; i++) {
             createNotification(notifications[i]);
         }
-    } else if (data['command'] === 'new_notification') {
+    } else if (data['command'] === 'new_friend_request') {
         let notification = $('#total-friend-notifications');
         notification.text(parseInt(notification.text() + 1));
         createNotification(JSON.parse(data['notification']));
@@ -177,7 +185,8 @@ $('#mark-like-comment-notifications-as-read').click(function () {
             console.log(res);
             if (res.status === false) {
             }
-            if (res.status === true) {}
+            if (res.status === true) {
+            }
 
         },
         error: function (err) {
