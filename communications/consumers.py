@@ -27,7 +27,7 @@ class ChatConsumer(WebsocketConsumer):
             'timestamp')[:20]
         # self.send_message(content)
         channel_layer = get_channel_layer()
-        channel = "chat_{}".format(self.room.id)
+        channel = "chat_{}_{}".format(self.room.id, self.user.id)
         async_to_sync(channel_layer.group_send)(
             channel, {
                 'type': 'send_message',
@@ -115,7 +115,7 @@ class ChatConsumer(WebsocketConsumer):
                 Q(author=author_user, friend=friend_user) | Q(author=friend_user, friend=author_user))[0]
         else:
             self.room = Room.objects.create(author=author_user, friend=friend_user)
-        self.room_group_name = 'chat_%s' % str(self.room.id)
+        self.room_group_name = 'chat_{}_{}'.format(str(self.room.id), str(self.user.id))
         async_to_sync(self.channel_layer.group_add)(
             self.room_group_name,
             self.channel_name

@@ -165,9 +165,9 @@ CRUMINA.Bootstrap = function () {
 }, $(document).ready((function () {
     void 0 !== $.fn.matchHeight && CRUMINA.equalHeight()
 })), CRUMINA.Materialize = function () {
-    $.material.init(), $(".checkbox > label").on("click", (function () {
-        $(this).closest(".checkbox").addClass("clicked")
-    }))
+    // $.material.init(), $(".checkbox > label").on("click", (function () {
+    //     $(this).closest(".checkbox").addClass("clicked")
+    // }))
 }, $(document).ready((function () {
     CRUMINA.Materialize()
 })), $(document).ready((function () {

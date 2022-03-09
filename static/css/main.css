@@ -3920,6 +3920,7 @@ fieldset[disabled] .checkbox, fieldset[disabled] .checkbox input[type=checkbox],
   z-index: 22;
   width: 70px;
   min-height: 1000vh;
+  top: 0;
   left: 0; }
   .fixed-sidebar .logo {
     height: 70px;
