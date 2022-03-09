@@ -4,264 +4,560 @@
 
 {% block content %}
 
-    <section>
-        <div class="gap gray-bg">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="row" id="page-contents">
-                            {% include 'includes/sidebar.html' %}
-                            <div class="col-lg-6">
-                                <div class="central-meta">
-                                    <div class="new-postbox">
-                                        <figure>
-                                            <img src="{{ request.user.profile.profile_image.url }}" alt="">
-                                        </figure>
-                                        <div class="newpst-input">
-                                            <form method="post" action="{% url 'newsfeed:post-create' %}">
-                                                {% csrf_token %}
-                                                <textarea rows="2" name="body" placeholder="Write something"></textarea>
-                                                <div class="attachments">
-                                                    <ul>
-                                                        <li>
-                                                            <i class="fa fa-music"></i>
-                                                            <label class="fileContainer">
-                                                                <input type="file">
-                                                            </label>
-                                                        </li>
-                                                        <li>
-                                                            <i class="fa fa-image"></i>
-                                                            <label class="fileContainer">
-                                                                <input type="file">
-                                                            </label>
-                                                        </li>
-                                                        <li>
-                                                            <i class="fa fa-video-camera"></i>
-                                                            <label class="fileContainer">
-                                                                <input type="file">
-                                                            </label>
-                                                        </li>
-                                                        <li>
-                                                            <i class="fa fa-camera"></i>
-                                                            <label class="fileContainer">
-                                                                <input type="file">
-                                                            </label>
-                                                        </li>
-                                                        <li>
-                                                            <button type="submit">Post</button>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div><!-- add post new box -->
-                                <div class="loadMore">
-                                    {% for post in posts %}
-                                        <div class="central-meta item">
-                                            <div class="user-post">
-                                                <div class="friend-info">
-                                                    <figure>
-                                                        {% if post.user.profile.profile_image.url %}
-                                                            <img src="{{ post.user.profile.profile_image.url }}" alt="">
-                                                        {% else %}
-                                                            <img src="{% static 'images/default.jpg' %}" alt="">
-                                                        {% endif %}
-                                                    </figure>
-                                                    <div class="friend-name">
-                                                        <ins><a href="{% url 'profile:user-timeline' post.user.username %}" title="">{{ post.user.username }}</a></ins>
-                                                        <span>published: {{ post.created_at|timesince }} ago</span>
-                                                    </div>
-                                                    <div class="post-meta">
-                                                        <img src="images/resources/user-post.jpg" alt="">
-                                                        <div class="we-video-info">
-                                                            <ul>
-                                                                <li>
-                                                                    <span class="comment" data-toggle="tooltip" title="Comments">
-                                                                        <i class="fa fa-comments-o"></i>
-                                                                        <ins>{{ post.comments.count }}</ins>
-                                                                    </span>
-                                                                </li>
-                                                                <li>
-                                                                    <span class="like" data-toggle="tooltip" title="like">
-                                                                        <i class="ti-heart"></i>
-                                                                        <ins>2.2k</ins>
-                                                                    </span>
-                                                                </li>
-                                                                <li>
-                                                                    <span class="dislike" data-toggle="tooltip" title="dislike">
-                                                                        <i class="ti-heart-broken"></i>
-                                                                        <ins>200</ins>
-                                                                    </span>
-                                                                </li>
-                                                                <li class="social-media">
-                                                                    <div class="menu">
-                                                                        <div class="btn trigger"><i class="fa fa-share-alt"></i></div>
-                                                                        <div class="rotater">
-                                                                            <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-html5"></i></a></div>
-                                                                        </div>
-                                                                        <div class="rotater">
-                                                                            <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-facebook"></i></a></div>
-                                                                        </div>
-                                                                        <div class="rotater">
-                                                                            <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-google-plus"></i></a></div>
-                                                                        </div>
-                                                                        <div class="rotater">
-                                                                            <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-twitter"></i></a></div>
-                                                                        </div>
-                                                                        <div class="rotater">
-                                                                            <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-css3"></i></a></div>
-                                                                        </div>
-                                                                        <div class="rotater">
-                                                                            <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-instagram"></i></a>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="rotater">
-                                                                            <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-dribbble"></i></a>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="rotater">
-                                                                            <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-pinterest"></i></a>
-                                                                            </div>
-                                                                        </div>
+    <div class="container">
+        <div class="row">
+            <!-- Main Content -->
+            <main class="col col-xl-12 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
+                <div class="ui-block">
+                    <!-- News Feed Form  -->
+                    <div class="news-feed-form">
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active inline-items" data-toggle="tab" href="#home-1" role="tab"
+                                   aria-expanded="true">
 
-                                                                    </div>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                        <div class="description">
-                                                            <p>{{ post.body }}</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="coment-area">
-                                                    <ul class="we-comet">
-                                                        {% for comment in post.comments.all %}
-                                                            <li>
-                                                                <div class="comet-avatar">
-                                                                    {% if comment.user.profile.profile_image.url %}
-                                                                        <img src="{{ comment.user.profile.profile_image.url }}" alt="">
-                                                                    {% else %}
-                                                                        <img src="{% static 'images/default.jpg' %}" alt="">
-                                                                    {% endif %}
-                                                                </div>
-                                                                <div class="we-comment">
-                                                                    <div class="coment-head">
-                                                                        <h5><a href="#" title="">{{ comment.user.username }}</a></h5>
-                                                                        <span>{{ comment.created_at|timesince }} ago</span>
-                                                                        <a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>
-                                                                    </div>
-                                                                    <p>{{ comment.content }}</p>
-                                                                </div>
-                                                            </li>
-                                                        {% endfor %}
-                                                        <li class="post-comment">
-                                                            <div class="comet-avatar">
-                                                                <img src="{{ request.user.profile.profile_image.url }}" alt="">
-                                                            </div>
-                                                            <div class="post-comt-box">
-                                                                <form method="post" id="comment-form" action="{% url 'newsfeed:comment-create' post.id %}">
-                                                                    {% csrf_token %}
-                                                                    <input placeholder="Post your comment" name="content">
-                                                                </form>
-                                                            </div>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    {% endfor %}
-                                </div>
-                            </div><!-- centerl meta -->
-                            <div class="col-lg-3">
-                                <aside class="sidebar static">
-                                    <div class="widget friend-list stick-widget">
-                                        <h4 class="widget-title">Friends</h4>
-                                        <div id="searchDir"></div>
-                                        <ul id="people-list" class="friendz-list">
-                                            {#                                            {% for friend in friends %}#}
-                                            {#                                                <li>#}
-                                            {#                                                    <figure>#}
-                                            {#                                                        <img src="images/resources/friend-avatar.jpg" alt="">#}
-                                            {#                                                        <span class="status f-online"></span>#}
-                                            {#                                                    </figure>#}
-                                            {#                                                    <div class="friendz-meta">#}
-                                            {#                                                        <a href="time-line.html">{{ friend.user.username }}</a>#}
-                                            {#                                                        <i><a href="https://wpkixx.com/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="07706e6973627574686b63627547606a666e6b2964686a">[email&#160;protected]</a></i>#}
-                                            {#                                                    </div>#}
-                                            {#                                                </li>#}
-                                            {#                                            {% endfor %}#}
-                                        </ul>
-                                        <div class="chat-box">
-                                            <div class="chat-head">
-                                                <span class="status f-online"></span>
-                                                <h6>Bucky Barnes</h6>
-                                                <div class="more">
-                                                    <span><i class="ti-more-alt"></i></span>
-                                                    <span class="close-mesage"><i class="ti-close"></i></span>
-                                                </div>
-                                            </div>
-                                            <div class="chat-list">
-                                                <ul>
-                                                    <li class="me">
-                                                        <div class="chat-thumb"><img src="images/resources/chatlist1.jpg" alt=""></div>
-                                                        <div class="notification-event">
-															<span class="chat-message-item">
-																Hi James! Please remember to buy the food for tomorrow! I’m gonna be handling the gifts and Jake’s gonna get the drinks
-															</span>
-                                                            <span class="notification-date"><time datetime="2004-07-24T18:18" class="entry-date updated">Yesterday at 8:10pm</time></span>
-                                                        </div>
-                                                    </li>
-                                                    <li class="you">
-                                                        <div class="chat-thumb"><img src="images/resources/chatlist2.jpg" alt=""></div>
-                                                        <div class="notification-event">
-															<span class="chat-message-item">
-																Hi James! Please remember to buy the food for tomorrow! I’m gonna be handling the gifts and Jake’s gonna get the drinks
-															</span>
-                                                            <span class="notification-date"><time datetime="2004-07-24T18:18" class="entry-date updated">Yesterday at 8:10pm</time></span>
-                                                        </div>
-                                                    </li>
-                                                    <li class="me">
-                                                        <div class="chat-thumb"><img src="images/resources/chatlist1.jpg" alt=""></div>
-                                                        <div class="notification-event">
-															<span class="chat-message-item">
-																Hi James! Please remember to buy the food for tomorrow! I’m gonna be handling the gifts and Jake’s gonna get the drinks
-															</span>
-                                                            <span class="notification-date"><time datetime="2004-07-24T18:18" class="entry-date updated">Yesterday at 8:10pm</time></span>
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                                <form class="text-box">
-                                                    <textarea placeholder="Post enter to post..."></textarea>
-                                                    <div class="add-smiles">
-                                                        <span title="add icon" class="em em-expressionless"></span>
-                                                    </div>
-                                                    <div class="smiles-bunch">
-                                                        <i class="em em---1"></i>
-                                                        <i class="em em-smiley"></i>
-                                                        <i class="em em-anguished"></i>
-                                                        <i class="em em-laughing"></i>
-                                                        <i class="em em-angry"></i>
-                                                        <i class="em em-astonished"></i>
-                                                        <i class="em em-blush"></i>
-                                                        <i class="em em-disappointed"></i>
-                                                        <i class="em em-worried"></i>
-                                                        <i class="em em-kissing_heart"></i>
-                                                        <i class="em em-rage"></i>
-                                                        <i class="em em-stuck_out_tongue"></i>
-                                                    </div>
-                                                    <button type="submit"></button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div><!-- friends list sidebar -->
-                                </aside>
-                            </div><!-- sidebar -->
+                                    <svg class="olymp-status-icon">
+                                        <use xlink:href="svg-icons/sprites/icons.svg#olymp-status-icon"></use>
+                                    </svg>
+
+                                    <span>Status</span>
+                                </a>
+                            </li>
+                        </ul>
+
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="home-1" role="tabpanel" aria-expanded="true">
+                                <form method="post" action="{% url 'newsfeed:post-create' %}">
+                                    {% csrf_token %}
+
+                                    <div class="author-thumb">
+                                        <img src="{{ user.profile.profile_image.url }}" alt="author" class="author-img">
+                                    </div>
+                                    <div class="form-group with-icon label-floating is-empty">
+                                        <label class="control-label" for="body">Share what you are thinking
+                                            here...</label>
+                                        <textarea class="form-control" placeholder="" name="body" id="body"></textarea>
+                                    </div>
+                                    <div class="add-options-message">
+                                        <a href="#" class="options-message" data-toggle="tooltip" data-placement="top"
+                                           data-original-title="ADD PHOTOS">
+                                            <svg class="olymp-camera-icon" data-toggle="modal"
+                                                 data-target="#update-header-photo">
+                                                <use xlink:href="svg-icons/sprites/icons.svg#olymp-camera-icon"></use>
+                                            </svg>
+                                        </a>
+                                        <a href="#" class="options-message" data-toggle="tooltip" data-placement="top"
+                                           data-original-title="TAG YOUR FRIENDS">
+                                            <svg class="olymp-computer-icon">
+                                                <use xlink:href="svg-icons/sprites/icons.svg#olymp-computer-icon"></use>
+                                            </svg>
+                                        </a>
+
+                                        <a href="#" class="options-message" data-toggle="tooltip" data-placement="top"
+                                           data-original-title="ADD LOCATION">
+                                            <svg class="olymp-small-pin-icon">
+                                                <use xlink:href="svg-icons/sprites/icons.svg#olymp-small-pin-icon"></use>
+                                            </svg>
+                                        </a>
+
+                                        <button class="btn btn-primary btn-md-2">Post Status</button>
+                                        <button class="btn btn-md-2 btn-border-think btn-transparent c-grey">
+                                            Preview
+                                        </button>
+
+                                    </div>
+
+                                </form>
+                            </div>
                         </div>
                     </div>
+                    <!-- ... end News Feed Form  -->
                 </div>
-            </div>
+
+                <div id="newsfeed-items-grid">
+                    {% for post in posts %}
+                        <div class="ui-block">
+                            <article class="hentry post">
+
+                                <div class="post__author author vcard inline-items">
+                                    {% if post.user.profile.profile_image.url %}
+                                        <img src="{{ post.user.profile.profile_image.url }}" alt="author"
+                                             class="author-img">
+                                    {% else %}
+                                        <img src="{% static 'img/bg-birthdays.jpg' %}" alt="author"
+                                             class="author-img">
+                                    {% endif %}
+
+                                    <div class="author-date">
+                                        <a class="h6 post__author-name fn" href="#">{{ post.user.get_full_name }}</a>
+                                        <div class="post__date">
+                                            <time class="published" datetime="2004-07-24T18:18">
+                                                Posted {{ post.get_date }}
+                                            </time>
+                                        </div>
+                                    </div>
+
+                                    <div class="more">
+                                        <svg class="olymp-three-dots-icon">
+                                            <use xlink:href="svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use>
+                                        </svg>
+                                        <ul class="more-dropdown">
+                                            {% if post.user == user %}
+                                                <li>
+                                                    <a href="#">Edit Post</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">Delete Post</a>
+                                                </li>
+                                            {% endif %}
+                                            <li>
+                                                <a href="#">Turn Off Notifications</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                </div>
+
+                                <p>{{ post.body }}</p>
+
+                                {#                                <div class="post-additional-info inline-items">#}
+                                {##}
+                                {#                                    <a href="#" class="post-add-icon inline-items">#}
+                                {#                                        <svg class="olymp-heart-icon">#}
+                                {#                                            <use xlink:href="svg-icons/sprites/icons.svg#olymp-heart-icon"></use>#}
+                                {#                                        </svg>#}
+                                {#                                        <span>24</span>#}
+                                {#                                    </a>#}
+                                {##}
+                                {#                                    <ul class="friends-harmonic">#}
+                                {#                                        <li>#}
+                                {#                                            <a href="#">#}
+                                {#                                                <img src="img/friend-harmonic7.jpg" alt="friend">#}
+                                {#                                            </a>#}
+                                {#                                        </li>#}
+                                {#                                        <li>#}
+                                {#                                            <a href="#">#}
+                                {#                                                <img src="img/friend-harmonic8.jpg" alt="friend">#}
+                                {#                                            </a>#}
+                                {#                                        </li>#}
+                                {#                                        <li>#}
+                                {#                                            <a href="#">#}
+                                {#                                                <img src="img/friend-harmonic9.jpg" alt="friend">#}
+                                {#                                            </a>#}
+                                {#                                        </li>#}
+                                {#                                        <li>#}
+                                {#                                            <a href="#">#}
+                                {#                                                <img src="img/friend-harmonic10.jpg" alt="friend">#}
+                                {#                                            </a>#}
+                                {#                                        </li>#}
+                                {#                                        <li>#}
+                                {#                                            <a href="#">#}
+                                {#                                                <img src="img/friend-harmonic11.jpg" alt="friend">#}
+                                {#                                            </a>#}
+                                {#                                        </li>#}
+                                {#                                    </ul>#}
+                                {##}
+                                {#                                    <div class="names-people-likes">#}
+                                {#                                        <a href="#">You</a>, <a href="#">Elaine</a> and#}
+                                {#                                        <br>22 more liked this#}
+                                {#                                    </div>#}
+                                {##}
+                                {##}
+                                {#                                    <div class="comments-shared">#}
+                                {#                                        <a href="#" class="post-add-icon inline-items">#}
+                                {#                                            <svg class="olymp-speech-balloon-icon">#}
+                                {#                                                <use xlink:href="svg-icons/sprites/icons.svg#olymp-speech-balloon-icon"></use>#}
+                                {#                                            </svg>#}
+                                {#                                            <span>17</span>#}
+                                {#                                        </a>#}
+                                {##}
+                                {#                                        <a href="#" class="post-add-icon inline-items">#}
+                                {#                                            <svg class="olymp-share-icon">#}
+                                {#                                                <use xlink:href="svg-icons/sprites/icons.svg#olymp-share-icon"></use>#}
+                                {#                                            </svg>#}
+                                {#                                            <span>24</span>#}
+                                {#                                        </a>#}
+                                {#                                    </div>#}
+                                {##}
+                                {##}
+                                {#                                </div>#}
+
+                                {#                                <div class="control-block-button post-control-button">#}
+                                {##}
+                                {#                                    <a href="#" class="btn btn-control">#}
+                                {#                                        <svg class="olymp-like-post-icon">#}
+                                {#                                            <use xlink:href="svg-icons/sprites/icons.svg#olymp-like-post-icon"></use>#}
+                                {#                                        </svg>#}
+                                {#                                    </a>#}
+                                {##}
+                                {#                                    <a href="#" class="btn btn-control">#}
+                                {#                                        <svg class="olymp-comments-post-icon">#}
+                                {#                                            <use xlink:href="svg-icons/sprites/icons.svg#olymp-comments-post-icon"></use>#}
+                                {#                                        </svg>#}
+                                {#                                    </a>#}
+                                {##}
+                                {#                                    <a href="#" class="btn btn-control">#}
+                                {#                                        <svg class="olymp-share-icon">#}
+                                {#                                            <use xlink:href="svg-icons/sprites/icons.svg#olymp-share-icon"></use>#}
+                                {#                                        </svg>#}
+                                {#                                    </a>#}
+                                {##}
+                                {#                                </div>#}
+
+                            </article>
+
+                            <!-- Comments -->
+
+                            <ul class="comments-list">
+                                {% for comment in post.comments.all %}
+                                    <li class="comment-item">
+                                        <div class="post__author author vcard inline-items">
+                                            {% if comment.user.profile.profile_image.url %}
+                                                <img src="{{ comment.user.profile.profile_image.url }}" alt="author"
+                                                     class="author-img">
+                                            {% else %}
+                                                <img src="{% static 'img/bg-birthdays.jpg' %}" alt="author"
+                                                     class="author-img">
+                                            {% endif %}
+
+                                            <div class="author-date">
+                                                <a class="h6 post__author-name fn" href="">
+                                                    {{ comment.user.get_full_name }}
+                                                </a>
+                                                <div class="post__date">
+                                                    <time class="published" datetime="2004-07-24T18:18">
+                                                        {{ comment.get_date }}
+                                                    </time>
+                                                </div>
+                                            </div>
+
+                                            <a href="#" class="more">
+                                                <svg class="olymp-three-dots-icon">
+                                                    <use xlink:href="svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use>
+                                                </svg>
+                                            </a>
+                                        </div>
+
+                                        <p>{{ comment.content }}</p>
+
+                                        {#                                        <a href="#" class="post-add-icon inline-items">#}
+                                        {#                                            <svg class="olymp-heart-icon">#}
+                                        {#                                                <use xlink:href="svg-icons/sprites/icons.svg#olymp-heart-icon"></use>#}
+                                        {#                                            </svg>#}
+                                        {#                                            <span>3</span>#}
+                                        {#                                        </a>#}
+                                        {#                                        <a href="#" class="reply">Reply</a>#}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+
+                            <!-- ... end Comments -->
+
+                            {#                            <a href="#" class="more-comments">View more comments <span>+</span></a>#}
+
+                            <!-- Comment Form  -->
+
+                            <form class="comment-form inline-items" method="post"
+                                  action="{% url 'newsfeed:comment-create' post.id %}">
+                                {% csrf_token %}
+
+                                <div class="post__author author vcard inline-items">
+                                    <img src="{{ user.profile.profile_image.url }}" alt="author">
+
+                                    <div class="form-group with-icon-right ">
+                                        <textarea class="form-control" placeholder="" name="content"></textarea>
+                                        <div class="add-options-message">
+                                            <a href="#" class="options-message" data-toggle="modal"
+                                               data-target="#update-header-photo">
+                                                <svg class="olymp-camera-icon">
+                                                    <use xlink:href="svg-icons/sprites/icons.svg#olymp-camera-icon"></use>
+                                                </svg>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="btn btn-md-2 btn-primary">Post Comment</button>
+                                <button class="btn btn-md-2 btn-border-think c-grey btn-transparent custom-color">
+                                    Cancel
+                                </button>
+                            </form>
+                            <!-- ... end Comment Form  -->
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <a id="load-more-button" href="#" class="btn btn-control btn-more" data-load-link="items-to-load.html"
+                   data-container="newsfeed-items-grid">
+                    <svg class="olymp-three-dots-icon">
+                        <use xlink:href="svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use>
+                    </svg>
+                </a>
+
+            </main>
+            <!-- ... end Main Content -->
         </div>
-    </section>
+    </div>
+
+    {#    <section>#}
+    {#        <div class="gap gray-bg">#}
+    {#            <div class="container-fluid">#}
+    {#                <div class="row">#}
+    {#                    <div class="col-lg-12">#}
+    {#                        <div class="row" id="page-contents">#}
+    {#                            {% include 'includes/sidebar.html' %}#}
+    {#                            <div class="col-lg-6">#}
+    {#                                <div class="central-meta">#}
+    {#                                    <div class="new-postbox">#}
+    {#                                        <figure>#}
+    {#                                            <img src="{{ request.user.profile.profile_image.url }}" alt="">#}
+    {#                                        </figure>#}
+    {#                                        <div class="newpst-input">#}
+    {#                                            <form method="post" action="{% url 'newsfeed:post-create' %}">#}
+    {#                                                {% csrf_token %}#}
+    {#                                                <textarea rows="2" name="body" placeholder="Write something"></textarea>#}
+    {#                                                <div class="attachments">#}
+    {#                                                    <ul>#}
+    {#                                                        <li>#}
+    {#                                                            <i class="fa fa-music"></i>#}
+    {#                                                            <label class="fileContainer">#}
+    {#                                                                <input type="file">#}
+    {#                                                            </label>#}
+    {#                                                        </li>#}
+    {#                                                        <li>#}
+    {#                                                            <i class="fa fa-image"></i>#}
+    {#                                                            <label class="fileContainer">#}
+    {#                                                                <input type="file">#}
+    {#                                                            </label>#}
+    {#                                                        </li>#}
+    {#                                                        <li>#}
+    {#                                                            <i class="fa fa-video-camera"></i>#}
+    {#                                                            <label class="fileContainer">#}
+    {#                                                                <input type="file">#}
+    {#                                                            </label>#}
+    {#                                                        </li>#}
+    {#                                                        <li>#}
+    {#                                                            <i class="fa fa-camera"></i>#}
+    {#                                                            <label class="fileContainer">#}
+    {#                                                                <input type="file">#}
+    {#                                                            </label>#}
+    {#                                                        </li>#}
+    {#                                                        <li>#}
+    {#                                                            <button type="submit">Post</button>#}
+    {#                                                        </li>#}
+    {#                                                    </ul>#}
+    {#                                                </div>#}
+    {#                                            </form>#}
+    {#                                        </div>#}
+    {#                                    </div>#}
+    {#                                </div><!-- add post new box -->#}
+    {#                                <div class="loadMore">#}
+    {#                                    {% for post in posts %}#}
+    {#                                        <div class="central-meta item">#}
+    {#                                            <div class="user-post">#}
+    {#                                                <div class="friend-info">#}
+    {#                                                    <figure>#}
+    {#                                                        {% if post.user.profile.profile_image.url %}#}
+    {#                                                            <img src="{{ post.user.profile.profile_image.url }}" alt="">#}
+    {#                                                        {% else %}#}
+    {#                                                            <img src="{% static 'images/default.jpg' %}" alt="">#}
+    {#                                                        {% endif %}#}
+    {#                                                    </figure>#}
+    {#                                                    <div class="friend-name">#}
+    {#                                                        <ins><a href="{% url 'profile:user-timeline' post.user.username %}" title="">{{ post.user.username }}</a></ins>#}
+    {#                                                        <span>published: {{ post.created_at|timesince }} ago</span>#}
+    {#                                                    </div>#}
+    {#                                                    <div class="post-meta">#}
+    {#                                                        <img src="images/resources/user-post.jpg" alt="">#}
+    {#                                                        <div class="we-video-info">#}
+    {#                                                            <ul>#}
+    {#                                                                <li>#}
+    {#                                                                    <span class="comment" data-toggle="tooltip" title="Comments">#}
+    {#                                                                        <i class="fa fa-comments-o"></i>#}
+    {#                                                                        <ins>{{ post.comments.count }}</ins>#}
+    {#                                                                    </span>#}
+    {#                                                                </li>#}
+    {#                                                                <li>#}
+    {#                                                                    <span class="like" data-toggle="tooltip" title="like">#}
+    {#                                                                        <i class="ti-heart"></i>#}
+    {#                                                                        <ins>2.2k</ins>#}
+    {#                                                                    </span>#}
+    {#                                                                </li>#}
+    {#                                                                <li>#}
+    {#                                                                    <span class="dislike" data-toggle="tooltip" title="dislike">#}
+    {#                                                                        <i class="ti-heart-broken"></i>#}
+    {#                                                                        <ins>200</ins>#}
+    {#                                                                    </span>#}
+    {#                                                                </li>#}
+    {#                                                                <li class="social-media">#}
+    {#                                                                    <div class="menu">#}
+    {#                                                                        <div class="btn trigger"><i class="fa fa-share-alt"></i></div>#}
+    {#                                                                        <div class="rotater">#}
+    {#                                                                            <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-html5"></i></a></div>#}
+    {#                                                                        </div>#}
+    {#                                                                        <div class="rotater">#}
+    {#                                                                            <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-facebook"></i></a></div>#}
+    {#                                                                        </div>#}
+    {#                                                                        <div class="rotater">#}
+    {#                                                                            <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-google-plus"></i></a></div>#}
+    {#                                                                        </div>#}
+    {#                                                                        <div class="rotater">#}
+    {#                                                                            <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-twitter"></i></a></div>#}
+    {#                                                                        </div>#}
+    {#                                                                        <div class="rotater">#}
+    {#                                                                            <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-css3"></i></a></div>#}
+    {#                                                                        </div>#}
+    {#                                                                        <div class="rotater">#}
+    {#                                                                            <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-instagram"></i></a>#}
+    {#                                                                            </div>#}
+    {#                                                                        </div>#}
+    {#                                                                        <div class="rotater">#}
+    {#                                                                            <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-dribbble"></i></a>#}
+    {#                                                                            </div>#}
+    {#                                                                        </div>#}
+    {#                                                                        <div class="rotater">#}
+    {#                                                                            <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-pinterest"></i></a>#}
+    {#                                                                            </div>#}
+    {#                                                                        </div>#}
+    {##}
+    {#                                                                    </div>#}
+    {#                                                                </li>#}
+    {#                                                            </ul>#}
+    {#                                                        </div>#}
+    {#                                                        <div class="description">#}
+    {#                                                            <p>{{ post.body }}</p>#}
+    {#                                                        </div>#}
+    {#                                                    </div>#}
+    {#                                                </div>#}
+    {#                                                <div class="coment-area">#}
+    {#                                                    <ul class="we-comet">#}
+    {#                                                        {% for comment in post.comments.all %}#}
+    {#                                                            <li>#}
+    {#                                                                <div class="comet-avatar">#}
+    {#                                                                    {% if comment.user.profile.profile_image.url %}#}
+    {#                                                                        <img src="{{ comment.user.profile.profile_image.url }}" alt="">#}
+    {#                                                                    {% else %}#}
+    {#                                                                        <img src="{% static 'images/default.jpg' %}" alt="">#}
+    {#                                                                    {% endif %}#}
+    {#                                                                </div>#}
+    {#                                                                <div class="we-comment">#}
+    {#                                                                    <div class="coment-head">#}
+    {#                                                                        <h5><a href="#" title="">{{ comment.user.username }}</a></h5>#}
+    {#                                                                        <span>{{ comment.created_at|timesince }} ago</span>#}
+    {#                                                                        <a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>#}
+    {#                                                                    </div>#}
+    {#                                                                    <p>{{ comment.content }}</p>#}
+    {#                                                                </div>#}
+    {#                                                            </li>#}
+    {#                                                        {% endfor %}#}
+    {#                                                        <li class="post-comment">#}
+    {#                                                            <div class="comet-avatar">#}
+    {#                                                                <img src="{{ request.user.profile.profile_image.url }}" alt="">#}
+    {#                                                            </div>#}
+    {#                                                            <div class="post-comt-box">#}
+    {#                                                                <form method="post" id="comment-form" action="{% url 'newsfeed:comment-create' post.id %}">#}
+    {#                                                                    {% csrf_token %}#}
+    {#                                                                    <input placeholder="Post your comment" name="content">#}
+    {#                                                                </form>#}
+    {#                                                            </div>#}
+    {#                                                        </li>#}
+    {#                                                    </ul>#}
+    {#                                                </div>#}
+    {#                                            </div>#}
+    {#                                        </div>#}
+    {#                                    {% endfor %}#}
+    {#                                </div>#}
+    {#                            </div><!-- centerl meta -->#}
+    {#                            <div class="col-lg-3">#}
+    {#                                <aside class="sidebar static">#}
+    {#                                    <div class="widget friend-list stick-widget">#}
+    {#                                        <h4 class="widget-title">Friends</h4>#}
+    {#                                        <div id="searchDir"></div>#}
+    {#                                        <ul id="people-list" class="friendz-list">#}
+    {#                                            {% for friend in friends %}#}
+    {#                                                <li>#}
+    {#                                                    <figure>#}
+    {#                                                        <img src="images/resources/friend-avatar.jpg" alt="">#}
+    {#                                                        <span class="status f-online"></span>#}
+    {#                                                    </figure>#}
+    {#                                                    <div class="friendz-meta">#}
+    {#                                                        <a href="time-line.html">{{ friend.user.username }}</a>#}
+    {#                                                        <i><a href="https://wpkixx.com/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="07706e6973627574686b63627547606a666e6b2964686a">[email&#160;protected]</a></i>#}
+    {#                                                    </div>#}
+    {#                                                </li>#}
+    {#                                            {% endfor %}#}
+    {#                                        </ul>#}
+    {#                                        <div class="chat-box">#}
+    {#                                            <div class="chat-head">#}
+    {#                                                <span class="status f-online"></span>#}
+    {#                                                <h6>Bucky Barnes</h6>#}
+    {#                                                <div class="more">#}
+    {#                                                    <span><i class="ti-more-alt"></i></span>#}
+    {#                                                    <span class="close-mesage"><i class="ti-close"></i></span>#}
+    {#                                                </div>#}
+    {#                                            </div>#}
+    {#                                            <div class="chat-list">#}
+    {#                                                <ul>#}
+    {#                                                    <li class="me">#}
+    {#                                                        <div class="chat-thumb"><img src="images/resources/chatlist1.jpg" alt=""></div>#}
+    {#                                                        <div class="notification-event">#}
+    {#															<span class="chat-message-item">#}
+    {#																Hi James! Please remember to buy the food for tomorrow! I’m gonna be handling the gifts and Jake’s gonna get the drinks#}
+    {#															</span>#}
+    {#                                                            <span class="notification-date"><time datetime="2004-07-24T18:18" class="entry-date updated">Yesterday at 8:10pm</time></span>#}
+    {#                                                        </div>#}
+    {#                                                    </li>#}
+    {#                                                    <li class="you">#}
+    {#                                                        <div class="chat-thumb"><img src="images/resources/chatlist2.jpg" alt=""></div>#}
+    {#                                                        <div class="notification-event">#}
+    {#															<span class="chat-message-item">#}
+    {#																Hi James! Please remember to buy the food for tomorrow! I’m gonna be handling the gifts and Jake’s gonna get the drinks#}
+    {#															</span>#}
+    {#                                                            <span class="notification-date"><time datetime="2004-07-24T18:18" class="entry-date updated">Yesterday at 8:10pm</time></span>#}
+    {#                                                        </div>#}
+    {#                                                    </li>#}
+    {#                                                    <li class="me">#}
+    {#                                                        <div class="chat-thumb"><img src="images/resources/chatlist1.jpg" alt=""></div>#}
+    {#                                                        <div class="notification-event">#}
+    {#															<span class="chat-message-item">#}
+    {#																Hi James! Please remember to buy the food for tomorrow! I’m gonna be handling the gifts and Jake’s gonna get the drinks#}
+    {#															</span>#}
+    {#                                                            <span class="notification-date"><time datetime="2004-07-24T18:18" class="entry-date updated">Yesterday at 8:10pm</time></span>#}
+    {#                                                        </div>#}
+    {#                                                    </li>#}
+    {#                                                </ul>#}
+    {#                                                <form class="text-box">#}
+    {#                                                    <textarea placeholder="Post enter to post..."></textarea>#}
+    {#                                                    <div class="add-smiles">#}
+    {#                                                        <span title="add icon" class="em em-expressionless"></span>#}
+    {#                                                    </div>#}
+    {#                                                    <div class="smiles-bunch">#}
+    {#                                                        <i class="em em---1"></i>#}
+    {#                                                        <i class="em em-smiley"></i>#}
+    {#                                                        <i class="em em-anguished"></i>#}
+    {#                                                        <i class="em em-laughing"></i>#}
+    {#                                                        <i class="em em-angry"></i>#}
+    {#                                                        <i class="em em-astonished"></i>#}
+    {#                                                        <i class="em em-blush"></i>#}
+    {#                                                        <i class="em em-disappointed"></i>#}
+    {#                                                        <i class="em em-worried"></i>#}
+    {#                                                        <i class="em em-kissing_heart"></i>#}
+    {#                                                        <i class="em em-rage"></i>#}
+    {#                                                        <i class="em em-stuck_out_tongue"></i>#}
+    {#                                                    </div>#}
+    {#                                                    <button type="submit"></button>#}
+    {#                                                </form>#}
+    {#                                            </div>#}
+    {#                                        </div>#}
+    {#                                    </div><!-- friends list sidebar -->#}
+    {#                                </aside>#}
+    {#                            </div><!-- sidebar -->#}
+    {#                        </div>#}
+    {#                    </div>#}
+    {#                </div>#}
+    {#            </div>#}
+    {#        </div>#}
+    {#    </section>#}
 
 {% endblock %}

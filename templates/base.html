@@ -1,4 +1,5 @@
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,111 +7,104 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content=""/>
     <meta name="keywords" content=""/>
-    <title>Gatherly Social Network Toolkit</title>
+    <title>Django Social Network Toolkit</title>
 
     {% include 'includes/stylesheets.html' %}
     {% csrf_token %}
 
 </head>
-<body>
-<div class="theme-layout">
+<body class="page-has-left-panels page-has-right-panels">
+<!-- Fixed Sidebar Left -->
 
-    <div class="topbar stick">
-        <div class="logo">
-            <a title="" href="/"><img src="{% static 'images/logo.png' %}" alt="" style="height: 70px; width: 90px"></a>
-        </div>
+<div class="fixed-sidebar">
+    <div class="fixed-sidebar-left sidebar--small" id="sidebar-left">
 
-        <div class="top-area">
-            <div class="top-search">
-                <form method="post" class="">
-                    <input type="text" placeholder="Search Friend">
-                    <button data-ripple><i class="ti-search"></i></button>
-                </form>
+        <a href="" class="logo">
+            <div class="img-wrap">
+                <img src="{% static 'img/logo.webp' %}" alt="Olympus">
             </div>
-            <ul class="setting-area">
-                <li><a href="{% url 'core:home' %}" title="Home" data-ripple=""><i class="ti-home"></i></a></li>
-                <li><a href="{% url 'communications:all-messages' %}" class="link">Messenger</a></li>
+        </a>
+
+        <div class="mCustomScrollbar" data-mcs-theme="dark">
+            <ul class="left-menu">
                 <li>
-                    <a href="#" title="Notification" data-ripple="">
-                        <i class="ti-user"></i><span id="total-friend-notifications"></span>
+                    <a href="#" class="js-sidebar-open">
+                        <svg class="olymp-menu-icon left-menu-icon" data-toggle="tooltip" data-placement="right"
+                             data-original-title="OPEN MENU">
+                            <use xlink:href="svg-icons/sprites/icons.svg#olymp-menu-icon"></use>
+                        </svg>
                     </a>
-                    <div class="dropdowns">
-                        <ul class="drops-menu" id="friend-menu">
-                        </ul>
-                        <a href="#" title="" class="more-mesg">view more</a>
-                    </div>
                 </li>
                 <li>
-                    <a href="#" title="Messages" data-ripple=""><i class="ti-comment"></i><span id="total-like-comment-notifications">0</span></a>
-                    <div class="dropdowns">
-                        <ul class="drops-menu" id="like-comment-menu">
-                        </ul>
-                        <a href="#" title="" class="more-mesg">view more</a>
-                        <a href="#" title="" class="more-mesg" data-url="{% url 'notifications:mark-like-comment-notifications-as-read' %}" id="mark-like-comment-notifications-as-read">mark all as read</a>
-                    </div>
+                    <a href="">
+                        <svg class="olymp-newsfeed-icon left-menu-icon" data-toggle="tooltip" data-placement="right"
+                             data-original-title="NEWSFEED">
+                            <use xlink:href="svg-icons/sprites/icons.svg#olymp-newsfeed-icon"></use>
+                        </svg>
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                        <svg class="olymp-manage-widgets-icon left-menu-icon" data-toggle="tooltip"
+                             data-placement="right"
+                             data-original-title="Manage Widgets">
+                            <use xlink:href="svg-icons/sprites/icons.svg#olymp-manage-widgets-icon"></use>
+                        </svg>
+                    </a>
                 </li>
             </ul>
-            <div class="user-img">
-                <img src="{{ request.user.profile.profile_image.url }}" alt="" style="height: 40px; width: 40px;">
-                <span class="status f-online"></span>
-                <div class="user-setting">
-                    <a href="#" title=""><span class="status f-online"></span>online</a>
-                    <a href="#" title=""><span class="status f-away"></span>away</a>
-                    <a href="#" title=""><span class="status f-off"></span>offline</a>
-                    <a href="#" title=""><i class="ti-user"></i> view profile</a>
-                    <a href="{% url 'profile:edit-profile' %}" title=""><i class="ti-pencil-alt"></i>edit profile</a>
-                    <a href="#" title=""><i class="ti-target"></i>activity log</a>
-                    <a href="#" title=""><i class="ti-settings"></i>account setting</a>
-                    <a href="{% url 'accounts:logout' %}" title=""><i class="ti-power-off"></i>log out</a>
-                </div>
-            </div>
-            <span class="ti-menu main-menu" data-ripple=""></span>
         </div>
-    </div><!-- topbar -->
+    </div>
 
-    {% block content %}{% endblock %}
+    <div class="fixed-sidebar-left sidebar--large" id="sidebar-left-1">
+        <a href="" class="logo">
+            <div class="img-wrap">
+                <img src="{% static 'img/logo.webp' %}" alt="Olympus">
+            </div>
+            <div class="title-block">
+                <h6 class="logo-title">olympus</h6>
+            </div>
+        </a>
 
-    <footer>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6 col-md-4">
-                    <div class="widget">
-                        <div class="widget-title"><h4>follow</h4></div>
-                        <ul class="list-style">
-                            <li><i class="fa fa-facebook-square"></i> <a href="https://web.facebook.com/shopcircut/" title="">facebook</a></li>
-                            <li><i class="fa fa-twitter-square"></i><a href="https://twitter.com/login?lang=en" title="">twitter</a></li>
-                            <li><i class="fa fa-instagram"></i><a href="https://www.instagram.com/?hl=en" title="">instagram</a></li>
-                            <li><i class="fa fa-google-plus-square"></i> <a href="https://plus.google.com/discover" title="">Google+</a></li>
-                            <li><i class="fa fa-pinterest-square"></i> <a href="https://www.pinterest.com/" title="">Pintrest</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-4">
-                    <div class="widget">
-                        <div class="widget-title"><h4>useful links</h4></div>
-                        <ul class="list-style">
-                            <li><a href="#" title="">leasing</a></li>
-                            <li><a href="#" title="">submit route</a></li>
-                            <li><a href="#" title="">how does it work?</a></li>
-                            <li><a href="#" title="">agent listings</a></li>
-                            <li><a href="#" title="">view All</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer><!-- footer -->
-    <div class="bottombar">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <span class="copyright">©. All rights reserved.</span>
-                    <i><img src="images/credit-cards.png" alt=""></i>
-                </div>
-            </div>
+        <div class="mCustomScrollbar" data-mcs-theme="dark">
+            <ul class="left-menu">
+                <li>
+                    <a href="#" class="js-sidebar-open">
+                        <svg class="olymp-close-icon left-menu-icon">
+                            <use xlink:href="svg-icons/sprites/icons.svg#olymp-close-icon"></use>
+                        </svg>
+                        <span class="left-menu-title">Collapse Menu</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="03-Newsfeed.html">
+                        <svg class="olymp-newsfeed-icon left-menu-icon" data-toggle="tooltip" data-placement="right"
+                             data-original-title="NEWSFEED">
+                            <use xlink:href="svg-icons/sprites/icons.svg#olymp-newsfeed-icon"></use>
+                        </svg>
+                        <span class="left-menu-title">Newsfeed</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                        <svg class="olymp-manage-widgets-icon left-menu-icon" data-toggle="tooltip"
+                             data-placement="right"
+                             data-original-title="Manage Widgets">
+                            <use xlink:href="svg-icons/sprites/icons.svg#olymp-manage-widgets-icon"></use>
+                        </svg>
+                        <span class="left-menu-title">Manage Widgets</span>
+                    </a>
+                </li>
+            </ul>
         </div>
     </div>
 </div>
+
+<!-- ... end Fixed Sidebar Left -->
+
+{% include 'includes/header.html' %}
+
+{% block content %} {% endblock %}
 
 {% include 'includes/scripts.html' %}
 {% block scripts %}{% endblock %}

@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+    {% csrf_token %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col col-xl-12 order-xl-2 col-lg-9 order-lg-2 col-md-12 order-md-1 col-sm-12 col-12">
+                <div class="ui-block">
+                    <div class="ui-block-title">
+                        <h6 class="title">Friend Requests</h6>
+                    </div>
+                    <!-- Notification List Frien Requests -->
+                    <ul class="notification-list friend-requests">
+                        {% for friend_request in friend_requests %}
+                            <li>
+                                <div class="author-thumb">
+                                    {% if friend_request.from_user.profile.profile_image.url %}
+                                        <img src="{{ friend_request.from_user.profile.profile_image.url }}"
+                                             class="author-img" alt="author">
+                                    {% else %}
+                                        <img src="{% static 'img/bg-birthdays.jpg' %}" class="author-img" alt="author">
+                                    {% endif %}
+                                </div>
+                                <div class="notification-event">
+                                    <a href="#"
+                                       class="h6 notification-friend">{{ friend_request.from_user.get_full_name }}</a>
+                                </div>
+                                <span class="notification-icon">
+                                    <a href="javascript:void(0)"
+                                       onclick="accept(this)"
+                                       data-url="{% url 'friends:accept-request' friend_request.from_user.username %}"
+                                       class="btn btn-success" data-ripple=""
+                                       data-friend="{{ friend_request.from_user.username }}">
+                                        Accept Request
+                                    </a>
+                                    <a href="javascript:void(0)"
+                                       data-url="{% url 'friends:accept-request' friend_request.from_user.username %}"
+                                       class="btn btn-danger" data-ripple=""
+                                       data-friend="{{ friend_request.from_user.username }}">
+                                        Reject Request
+                                    </a>
+                                </span>
+                            </li>
+                        {% empty %}
+                            <li>No requests found.</li>
+                        {% endfor %}
+                    </ul>
+                    <!-- ... end Notification List Friend Requests -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,5 +1,5 @@
 let csrfmiddlewaretoken = document.getElementsByName("csrfmiddlewaretoken")[0].value;
-$('.nearby-contct .add-friend').click(function () {
+$('.notification-icon .add-friend').click(function () {
 
     $.ajaxSetup({
         headers: {
@@ -16,10 +16,10 @@ $('.nearby-contct .add-friend').click(function () {
         url: url,
         dataType: 'json',
         success: function (res) {
-            if (res.status === false) {
-            }
-            if (res.status === true) {
-                // $('.add-friend').text('Request Sent');
+            if (res.status) {
+                toastr.success('Friend request sent');
+            } else {
+                toastr.info('Something went wrong');
             }
         },
         error: function (err) {
@@ -28,14 +28,14 @@ $('.nearby-contct .add-friend').click(function () {
     });
 });
 
-function accept(li) {
+function accept(element) {
     $.ajaxSetup({
         headers: {
             'X-CSRFToken': csrfmiddlewaretoken
         }
     });
 
-    let friend = $(li).data('friend');
+    let friend = $(element).data('friend');
 
     let url = `/accept-request/${friend}`;
 
@@ -44,14 +44,12 @@ function accept(li) {
         url: url,
         dataType: 'json',
         success: function (res) {
-            if (res.status === false) {
-            }
-            if (res.status === true) {
-
+            if (res.status) {
+                toastr.success(res.message);
             }
         },
         error: function (err) {
-            console.log(err);
+            toastr.warning(err);
         }
     });
 }
@@ -59,42 +57,50 @@ function accept(li) {
 let friendRequestNotificationSocket = new ReconnectingWebSocket(
     'ws://' + window.location.host +
     '/ws/friend-request-notification/');
+
 friendRequestNotificationSocket.onopen = function (e) {
     fetchFriendRequests();
 };
 
 function fetchFriendRequests() {
-    friendRequestNotificationSocket.send(JSON.stringify({'command': 'fetch_friend_notifications'}));
+    // friendRequestNotificationSocket.send(JSON.stringify({'command': 'fetch_friend_requests'}));
 }
 
 function createNotification(notification) {
-    let single = `<li class="list">
-                       <a href="#" title="">
-                            <img src="images/resources/thumb-1.jpg" alt="">
-                            <div class="mesg-meta">
-                                <span>${notification.actor.username} ${notification.verb}</span>
-                                <button class="btn btn-primary btn-sm accept-request" onclick="accept(this)" data-friend="${notification.actor.username}">Accept</button>
-                                <button class="btn btn-danger btn-sm">Reject</button>
-                                <br>
-                                <i>2 min ago</i>
+    let single = `<li>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <img src="img/avatar55-sm.jpg" alt="author">
+                                </div>
+                                <div class="col-md-9">
+                                    <a href="#" class="h6 notification-friend">${notification.from_user.first_name} ${notification.from_user.last_name}</a>
+                                </div>
                             </div>
-                       </a>
-                   </li>`;
-    $('#friend-menu').prepend(single);
+                        </div>
+                        <br>
+                        <button class="btn btn-sm btn-success" onclick="accept(this)" data-friend="${notification.from_user.username}">
+                            Accept
+                        </button>
+                        <button class="btn btn-sm btn-danger">
+                            Reject
+                        </button>
+                    </li>`;
+    $('#friend-requests').prepend(single);
 }
 
 friendRequestNotificationSocket.onmessage = function (event) {
     let data = JSON.parse(event.data);
-    if (data['command'] === 'notifications') {
-        let notifications = JSON.parse(data['notifications']);
-        $('#total-friend-notifications').text(notifications.length);
+    if (data['command'] === "all_friend_requests") {
+        let notifications = data['friend_requests'];
+        $('#total-friend-requests').text(notifications.length);
         for (let i = 0; i < notifications.length; i++) {
             createNotification(notifications[i]);
         }
-    } else if (data['command'] === 'new_notification') {
-        let notification = $('#total-friend-notifications');
-        notification.text(parseInt(notification.text() + 1));
-        createNotification(JSON.parse(data['notification']));
+    } else if (data['command'] === 'new_friend_request') {
+        let notification = $('#total-friend-requests');
+        notification.text(parseInt(notification.text()) + 1);
+        createNotification(data['notification']);
     }
 };
 
@@ -110,15 +116,33 @@ function fetchNotifications() {
 }
 
 function createLikeCommentNotification(notification) {
-    let single = `<li>
-                        <a href="#" title="">
-                            <img src="images/resources/thumb-1.jpg" alt="">
-                            <div class="mesg-meta">
-                                <span>${notification.actor.username} ${notification.verb}</span>
-                                <i>2 min ago</i>
-                            </div>
-                        </a>
-                    </li>`;
+    // let single = `<li>
+    //                     <a href="#" title="">
+    //                         <img src="images/resources/thumb-1.jpg" alt="">
+    //                         <div class="mesg-meta">
+    //                             <span>${notification.actor.username} ${notification.verb}</span>
+    //                             <i>2 min ago</i>
+    //                         </div>
+    //                     </a>
+    //                 </li>`;
+    let single = `
+                <li>
+                    <div class="author-thumb">
+<!--                        <img src="img/avatar62-sm.jpg" alt="author">-->
+                    </div>
+                    <div class="notification-event">
+                        <div><a href="#" class="h6 notification-friend">${notification.actor.username}</a> ${notification.description} <a href="#" class="notification-link">profile status</a>.</div>
+                        <span class="notification-date"><time class="entry-date updated" datetime="2004-07-24T18:18">4 hours ago</time></span>
+                    </div>
+                    <span class="notification-icon">
+                        <svg class="olymp-comments-post-icon"><use xlink:href="#olymp-comments-post-icon"></use></svg>
+                    </span>
+                        
+                    <div class="more">
+                        <svg class="olymp-three-dots-icon"><use xlink:href="#olymp-three-dots-icon"></use></svg>
+                        <svg class="olymp-little-delete"><use xlink:href="#olymp-little-delete"></use></svg>
+                    </div>
+                </li>`;
     $('#like-comment-menu').prepend(single);
 }
 
@@ -129,8 +153,9 @@ likeCommentNotificationSocket.onopen = function (e) {
 likeCommentNotificationSocket.onmessage = function (event) {
     let data = JSON.parse(event.data);
     if (data['command'] === 'notifications') {
-        let notifications = JSON.parse(data['notifications']);
-        $('#total-like-comment-notifications').text(notifications.length);
+        let unread_notifications = data['unread_notifications'];
+        $('#notification-count').text(unread_notifications);
+        let notifications = data['notifications'];
         for (let i = 0; i < notifications.length; i++) {
             createLikeCommentNotification(notifications[i]);
         }
@@ -159,7 +184,8 @@ $('#mark-like-comment-notifications-as-read').click(function () {
             console.log(res);
             if (res.status === false) {
             }
-            if (res.status === true) {}
+            if (res.status === true) {
+            }
 
         },
         error: function (err) {

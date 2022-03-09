@@ -9,10 +9,9 @@ from accounts.models import User
 from friends.models import Friend
 
 
+@login_required(login_url=reverse_lazy("accounts:login"))
 def all_messages(request):
-    friends_one = Friend.objects.filter(friend=request.user, status='friend')
-    friends_two = Friend.objects.filter(user=request.user, status='friend')
-    friends = friends_one | friends_two
+    friends = Friend.objects.friends(request.user)
     return render(request, "communications/all-messages.html", {'friends': friends})
 
 
@@ -26,10 +25,10 @@ def messages_with_one_friend(request, friend):
             return redirect(reverse_lazy('communications:all-messages'))
     except:
         return redirect(reverse_lazy('communications:all-messages'))
-    friends_one = Friend.objects.filter(friend=request.user, status='friend')
-    friends_two = Friend.objects.filter(user=request.user, status='friend')
-    friends = friends_one | friends_two
     friend_user = User.objects.get(username=friend)
+    if not Friend.objects.are_friends(request.user, friend_user):
+        return redirect(reverse_lazy('communications:all-messages'))
+    friends = Friend.objects.friends(request.user)
     return render(request, "communications/friend-messages.html", {
         'friends': friends,
         'friend_user': friend_user,
