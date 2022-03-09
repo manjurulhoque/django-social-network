@@ -3,100 +3,174 @@
 
 {% block content %}
 
-    <section>
-        <div class="gap gray-bg">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="row" id="page-contents">
-                            <div class="col-lg-3">
-                                <aside class="sidebar static">
-                                    <div class="widget stick-widget">
-                                        <h4 class="widget-title">Shortcuts</h4>
-                                        <ul class="naves">
-                                            <li>
-                                                <i class="ti-clipboard"></i>
-                                                <a href="{% url 'core:home' %}" title="">News feed</a>
-                                            </li>
-                                            <li>
-                                                <i class="ti-mouse-alt"></i>
-                                                <a href="inbox.html" title="">Inbox</a>
-                                            </li>
-                                            <li>
-                                                <i class="ti-user"></i>
-                                                <a href="timeline-friends.html" title="">friends</a>
-                                            </li>
-                                        </ul>
-                                    </div><!-- Shortcuts -->
-                                </aside>
-                            </div><!-- sidebar -->
-                            <div class="col-lg-6">
-                                <div class="central-meta">
-                                    <div class="messages" id="messages">
-                                        <h5 class="f-title"><i class="ti-bell"></i>All Messages </h5>
-                                        <div class="message-box row">
-                                            <ul class="peoples col-md-3">
-                                                {% for friend in friends %}
-                                                    <li>
-                                                        <figure>
-                                                            {% if friend.user.username == request.user.username %}
-                                                                {% if friend.friend.gender == 'male' %}
-                                                                    <img src="{% static 'images/male.jpg' %}" alt="male">
-                                                                {% else %}
-                                                                    <img src="{% static 'images/female.png' %}" alt="female">
-                                                                {% endif %}
-                                                            {% else %}
-                                                                {% if friend.user.gender == 'male' %}
-                                                                    <img src="{% static 'images/male.jpg' %}" alt="male">
-                                                                {% else %}
-                                                                    <img src="{% static 'images/female.png' %}" alt="female">
-                                                                {% endif %}
-                                                            {% endif %}
-                                                            {#<span class="status f-online"></span>#}
-                                                        </figure>
-                                                        <div class="people-name">
-                                                            {% if friend.user.username == request.user.username %}
-                                                                <a href="{% url 'communications:messages-with-one-friend' friend.friend.username %}">{{ friend.friend.username }}</a>
-                                                            {% else %}
-                                                                <a href="{% url 'communications:messages-with-one-friend' friend.user.username %}">{{ friend.user.username }}</a>
-                                                            {% endif %}
-                                                        </div>
-                                                    </li>
-                                                {% endfor %}
-                                            </ul>
-                                            <div class="peoples-mesg-box col-md-9">
-                                                <div class="conversation-head">
-                                                    <figure>
-                                                        {% if friend_user.gender == 'male' %}
-                                                            <img src="{% static 'images/male.jpg' %}" alt="male">
-                                                        {% else %}
-                                                            <img src="{% static 'images/female.png' %}" alt="female">
-                                                        {% endif %}
-                                                    </figure>
-                                                    <span>Chat with {{ friend_name_json|slice:"1:-1" }}</span>
-                                                </div>
-                                                <ul class="chatting-area">
-                                                </ul>
-                                                <div class="message-text-container">
-                                                    <form onsubmit="return false;">
-                                                        <textarea id="chat-message-input"></textarea>
-                                                        <em id="typing"></em>
-                                                        <button title="send" id="chat-message-submit"><i class="fa fa-paper-plane"></i></button>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+    <main class="content">
+        <div class="container p-0">
+
+            <h1 class="h3 mb-3">Messages</h1>
+
+            <div class="card">
+                <div class="row g-0">
+                    <div class="col-12 col-lg-5 col-xl-3 border-right">
+
+                        <div class="px-4 d-none d-md-block">
+                            <div class="d-flex align-items-center">
+                                <div class="flex-grow-1">
+                                    <input type="text" class="form-control my-3" placeholder="Search...">
                                 </div>
                             </div>
-                            <div class="col-lg-3">
+                        </div>
+
+                        {% for friend in friends %}
+                            <a href="{% url 'communications:messages-with-one-friend' friend.username %}"
+                               class="list-group-item list-group-item-action border-0">
+                                <div class="badge bg-success float-right">5</div>
+                                <div class="d-flex align-items-start">
+                                    <img src="https://bootdey.com/img/Content/avatar/avatar5.png"
+                                         class="rounded-circle mr-1" alt="Vanessa Tucker" width="40" height="40">
+                                    <div class="flex-grow-1 ml-3">
+                                        {{ friend.get_full_name }}
+                                        <div class="small"><span class="fas fa-circle chat-online"></span> Online</div>
+                                    </div>
+                                </div>
+                            </a>
+                        {% endfor %}
+
+                        <hr class="d-block d-lg-none mt-1 mb-0">
+                    </div>
+                    <div class="col-12 col-lg-7 col-xl-9">
+                        <div class="py-2 px-4 border-bottom d-none d-lg-block">
+                            <div class="d-flex align-items-center py-1">
+                                <div class="position-relative">
+                                    <img src="https://bootdey.com/img/Content/avatar/avatar3.png"
+                                         class="rounded-circle mr-1" alt="Sharon Lessman" width="40" height="40">
+                                </div>
+                                <div class="flex-grow-1 pl-3">
+                                    <strong>Sharon Lessman</strong>
+                                    <div class="text-muted small"><em>Typing...</em></div>
+                                </div>
+                                <div>
+                                    <button class="btn btn-primary btn-lg mr-1 px-3">
+                                        <i class="fa fa-phone"></i>
+                                    </button>
+                                    <button class="btn btn-success btn-lg mr-1 px-3 d-none d-md-inline-block">
+                                        <i class="fa fa-video"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
+
+                        <div class="position-relative">
+                            <div class="chat-messages p-4" id="chat-messages">
+                            </div>
+                        </div>
+
+                        <div class="flex-grow-0 py-3 px-4 border-top">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Type your message">
+                                <button class="btn btn-primary">Send</button>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </main>
+
+{#    <section>#}
+{#        <div class="gap gray-bg">#}
+{#            <div class="container-fluid">#}
+{#                <div class="row">#}
+{#                    <div class="col-lg-12">#}
+{#                        <div class="row" id="page-contents">#}
+{#                            <div class="col-lg-3">#}
+{#                                <aside class="sidebar static">#}
+{#                                    <div class="widget stick-widget">#}
+{#                                        <h4 class="widget-title">Shortcuts</h4>#}
+{#                                        <ul class="naves">#}
+{#                                            <li>#}
+{#                                                <i class="ti-clipboard"></i>#}
+{#                                                <a href="{% url 'core:home' %}" title="">News feed</a>#}
+{#                                            </li>#}
+{#                                            <li>#}
+{#                                                <i class="ti-mouse-alt"></i>#}
+{#                                                <a href="inbox.html" title="">Inbox</a>#}
+{#                                            </li>#}
+{#                                            <li>#}
+{#                                                <i class="ti-user"></i>#}
+{#                                                <a href="timeline-friends.html" title="">friends</a>#}
+{#                                            </li>#}
+{#                                        </ul>#}
+{#                                    </div><!-- Shortcuts -->#}
+{#                                </aside>#}
+{#                            </div><!-- sidebar -->#}
+{#                            <div class="col-lg-6">#}
+{#                                <div class="central-meta">#}
+{#                                    <div class="messages" id="messages">#}
+{#                                        <h5 class="f-title"><i class="ti-bell"></i>All Messages </h5>#}
+{#                                        <div class="message-box row">#}
+{#                                            <ul class="peoples col-md-3">#}
+{#                                                {% for friend in friends %}#}
+{#                                                    <li>#}
+{#                                                        <figure>#}
+{#                                                            {% if friend.user.username == request.user.username %}#}
+{#                                                                {% if friend.friend.gender == 'male' %}#}
+{#                                                                    <img src="{% static 'images/male.jpg' %}" alt="male">#}
+{#                                                                {% else %}#}
+{#                                                                    <img src="{% static 'images/female.png' %}" alt="female">#}
+{#                                                                {% endif %}#}
+{#                                                            {% else %}#}
+{#                                                                {% if friend.user.gender == 'male' %}#}
+{#                                                                    <img src="{% static 'images/male.jpg' %}" alt="male">#}
+{#                                                                {% else %}#}
+{#                                                                    <img src="{% static 'images/female.png' %}" alt="female">#}
+{#                                                                {% endif %}#}
+{#                                                            {% endif %}#}
+                                                            {#<span class="status f-online"></span>#}
+{#                                                        </figure>#}
+{#                                                        <div class="people-name">#}
+{#                                                            {% if friend.user.username == request.user.username %}#}
+{#                                                                <a href="{% url 'communications:messages-with-one-friend' friend.friend.username %}">{{ friend.friend.username }}</a>#}
+{#                                                            {% else %}#}
+{#                                                                <a href="{% url 'communications:messages-with-one-friend' friend.user.username %}">{{ friend.user.username }}</a>#}
+{#                                                            {% endif %}#}
+{#                                                        </div>#}
+{#                                                    </li>#}
+{#                                                {% endfor %}#}
+{#                                            </ul>#}
+{#                                            <div class="peoples-mesg-box col-md-9">#}
+{#                                                <div class="conversation-head">#}
+{#                                                    <figure>#}
+{#                                                        {% if friend_user.gender == 'male' %}#}
+{#                                                            <img src="{% static 'images/male.jpg' %}" alt="male">#}
+{#                                                        {% else %}#}
+{#                                                            <img src="{% static 'images/female.png' %}" alt="female">#}
+{#                                                        {% endif %}#}
+{#                                                    </figure>#}
+{#                                                    <span>Chat with {{ friend_name_json|slice:"1:-1" }}</span>#}
+{#                                                </div>#}
+{#                                                <ul class="chatting-area">#}
+{#                                                </ul>#}
+{#                                                <div class="message-text-container">#}
+{#                                                    <form onsubmit="return false;">#}
+{#                                                        <textarea id="chat-message-input"></textarea>#}
+{#                                                        <em id="typing"></em>#}
+{#                                                        <button title="send" id="chat-message-submit"><i class="fa fa-paper-plane"></i></button>#}
+{#                                                    </form>#}
+{#                                                </div>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                            <div class="col-lg-3">#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#    </section>#}
 
 {% endblock %}
 
@@ -124,7 +198,8 @@
 
         chatSocket.onmessage = function (e) {
             let data = JSON.parse(e.data);
-            if (data['command'] === 'messages') {
+            console.log(data)
+            if (data['command'] === 'all_messages') {
                 for (let i = 0; i < data['messages'].length; i++) {
                     createMessage(data['messages'][i]);
                 }
@@ -196,24 +271,49 @@
             let user_class;
             let gender_image;
 
+            {#if (author === username) {#}
+            {#    user_class = "me";#}
+            {#    if (data['author_gender'] === 'male') gender_image = "{% static 'images/male.jpg' %}";#}
+            {#    else gender_image = "{% static 'images/female.png' %}"#}
+            {#} else {#}
+            {#    user_class = "you";#}
+            {#    if (data['author_gender'] === 'male') gender_image = "{% static 'images/male.jpg' %}";#}
+            {#    else gender_image = "{% static 'images/female.png' %}"#}
+            {#}#}
+
+            {#let message = `<li class="${user_class}">#}
+            {#                    <figure>#}
+            {#                        <img src="${gender_image}" alt="">#}
+            {#                    </figure>#}
+            {#                    <p>${data.content}</p>#}
+            {#                </li>`;#}
+            let message = '';
             if (author === username) {
-                user_class = "me";
-                if (data['author_gender'] === 'male') gender_image = "{% static 'images/male.jpg' %}";
-                else gender_image = "{% static 'images/female.png' %}"
+                message = `<div class="chat-message-left pb-4">
+                            <div>
+                                <img src="https://bootdey.com/img/Content/avatar/avatar3.png"
+                                     class="rounded-circle mr-1" alt="Sharon Lessman" width="40" height="40">
+                                <div class="text-muted small text-nowrap mt-2">${data.timestamp}</div>
+                            </div>
+                            <div class="flex-shrink-1 bg-light rounded py-2 px-3 ml-3">
+                                <div class="font-weight-bold mb-1">${data.friend_full_name}</div>
+                                ${data.content}
+                            </div>
+                        </div>`;
             } else {
-                user_class = "you";
-                if (data['author_gender'] === 'male') gender_image = "{% static 'images/male.jpg' %}";
-                else gender_image = "{% static 'images/female.png' %}"
+                message = `<div class="chat-message-right mb-4">
+								<div>
+									<img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="rounded-circle mr-1" alt="Chris Wood" width="40" height="40">
+									<div class="text-muted small text-nowrap mt-2">2:38 am</div>
+								</div>
+								<div class="flex-shrink-1 bg-light rounded py-2 px-3 mr-3">
+									<div class="font-weight-bold mb-1">You</div>
+									${data.content}
+								</div>
+							</div>`;
             }
 
-            let message = `<li class="${user_class}">
-                                <figure>
-                                    <img src="${gender_image}" alt="">
-                                </figure>
-                                <p>${data.content}</p>
-                            </li>`;
-
-            $('.chatting-area').append(message);
+            $('.chat-messages').append(message);
         }
     </script>
 

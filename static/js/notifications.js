@@ -91,7 +91,6 @@ function createNotification(notification) {
 
 friendRequestNotificationSocket.onmessage = function (event) {
     let data = JSON.parse(event.data);
-    console.log(data);
     if (data['command'] === "all_friend_requests") {
         let notifications = data['friend_requests'];
         $('#total-friend-requests').text(notifications.length);
