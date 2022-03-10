@@ -3,7 +3,146 @@
 
 {% block content %}
 
-    <section>
+    <div class="container">
+        <div class="row">
+            <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="ui-block">
+                    <div class="top-header">
+                        <div class="top-header-thumb">
+                            <img src="{{ user.profile.get_cover_image }}" alt="nature">
+                        </div>
+                        <div class="profile-section">
+                            <div class="row">
+                                <div class="col col-lg-5 col-md-5 col-sm-12 col-12">
+                                    <ul class="profile-menu">
+                                        <li>
+                                            <a href="" class="active">Timeline</a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0)">About</a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0)">Friends</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col col-lg-5 mx-auto col-md-5 col-sm-12 col-12">
+                                    <ul class="profile-menu ml-5">
+                                        <li>
+                                            <a href="#">Photos</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Videos</a>
+                                        </li>
+                                        <li>
+                                            <div class="more">
+                                                <svg class="olymp-three-dots-icon">
+                                                    <use xlink:href="svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use>
+                                                </svg>
+                                                <ul class="more-dropdown more-with-triangle">
+                                                    <li>
+                                                        <a href="#">Report Profile</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#">Block Profile</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="control-block-button">
+                                <a href="javascript:void(0)" class="btn btn-control bg-blue">
+                                    <svg class="olymp-happy-face-icon">
+                                        <use xlink:href="svg-icons/sprites/icons.svg#olymp-happy-face-icon"></use>
+                                    </svg>
+                                </a>
+
+                                <a href="#" class="btn btn-control bg-purple">
+                                    <svg class="olymp-chat---messages-icon">
+                                        <use xlink:href="svg-icons/sprites/icons.svg#olymp-chat---messages-icon"></use>
+                                    </svg>
+                                </a>
+
+                                <div class="btn btn-control bg-primary more">
+                                    <svg class="olymp-settings-icon">
+                                        <use xlink:href="svg-icons/sprites/icons.svg#olymp-settings-icon"></use>
+                                    </svg>
+
+                                    <ul class="more-dropdown more-with-triangle triangle-bottom-right">
+                                        <li>
+                                            <a href="#" data-toggle="modal" data-target="#update-header-photo">Update
+                                                Profile Photo</a>
+                                        </li>
+                                        <li>
+                                            <a href="#" data-toggle="modal" data-target="#update-header-photo">Update
+                                                Header Photo</a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0)">Account Settings</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="top-header-author">
+                            <a href="javascript:void(0)" class="author-thumb">
+                                <img src="{{ user.profile.get_profile_image }}" alt="author" class="img-fluid float-start">
+                            </a>
+                            <div class="author-content">
+                                <a href="javascript:void(0)" class="h6 author-name">{{ user.get_full_name }}</a>
+                                <p class="country">San Francisco, CA</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ... end Top Header-Profile -->
+
+    <div class="container">
+        <div class="row">
+            <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="ui-block responsive-flex">
+                    <div class="ui-block-title">
+                        <div class="h6 title">James’s Blog Posts</div>
+                        <div class="w-select">
+                            <div class="title">Order By:</div>
+                            <fieldset class="form-group">
+                                <select class="selectpicker form-control">
+                                    <option value="DA">Date (Descending)</option>
+                                    <option value="NU">Number of Likes</option>
+                                    <option value="NU">Number of Shared</option>
+                                </select>
+                            </fieldset>
+                        </div>
+
+                        <form class="w-search">
+                            <div class="form-group with-button">
+                                <input class="form-control" type="text" placeholder="Search Blog Posts...">
+                                <button>
+                                    <svg class="olymp-magnifying-glass-icon">
+                                        <use xlink:href="svg-icons/sprites/icons.svg#olymp-magnifying-glass-icon"></use>
+                                    </svg>
+                                </button>
+                            </div>
+                        </form>
+                        <a href="#" class="more">
+                            <svg class="olymp-three-dots-icon">
+                                <use xlink:href="svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% comment %}<section>
         <div class="feature-photo">
             <figure><img src="{{ user.profile.cover_image.url }}" alt="" style="height: 400px;"></figure>
             <div class="add-btn">
@@ -62,49 +201,6 @@
                             {% include 'includes/sidebar.html' %}
                             <div class="col-lg-6">
                                 <div class="loadMore">
-{#                                    <div class="central-meta item">#}
-{#                                        <div class="new-postbox">#}
-{#                                            <figure>#}
-{#                                                <img src="{% static user.profile.profile_image.url %}" alt="">#}
-{#                                            </figure>#}
-{#                                            <div class="newpst-input">#}
-{#                                                <form method="post">#}
-{#                                                    <textarea rows="2" placeholder="write something"></textarea>#}
-{#                                                    <div class="attachments">#}
-{#                                                        <ul>#}
-{#                                                            <li>#}
-{#                                                                <i class="fa fa-music"></i>#}
-{#                                                                <label class="fileContainer">#}
-{#                                                                    <input type="file">#}
-{#                                                                </label>#}
-{#                                                            </li>#}
-{#                                                            <li>#}
-{#                                                                <i class="fa fa-image"></i>#}
-{#                                                                <label class="fileContainer">#}
-{#                                                                    <input type="file">#}
-{#                                                                </label>#}
-{#                                                            </li>#}
-{#                                                            <li>#}
-{#                                                                <i class="fa fa-video-camera"></i>#}
-{#                                                                <label class="fileContainer">#}
-{#                                                                    <input type="file">#}
-{#                                                                </label>#}
-{#                                                            </li>#}
-{#                                                            <li>#}
-{#                                                                <i class="fa fa-camera"></i>#}
-{#                                                                <label class="fileContainer">#}
-{#                                                                    <input type="file">#}
-{#                                                                </label>#}
-{#                                                            </li>#}
-{#                                                            <li>#}
-{#                                                                <button type="submit">Publish</button>#}
-{#                                                            </li>#}
-{#                                                        </ul>#}
-{#                                                    </div>#}
-{#                                                </form>#}
-{#                                            </div>#}
-{#                                        </div>#}
-{#                                    </div>#}
                                     {% for post in user.posts.all %}
                                         <div class="central-meta item">
                                             <div class="user-post">
@@ -302,6 +398,6 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section>{% endcomment %}
 
 {% endblock %}

@@ -38,7 +38,8 @@
                                     <div class="form-group with-icon label-floating is-empty">
                                         <label class="control-label" for="body">Share what you are thinking
                                             here...</label>
-                                        <textarea class="form-control" placeholder="" name="body" id="body"></textarea>
+                                        <textarea class="form-control" placeholder="" name="body" id="body"
+                                                  required></textarea>
                                     </div>
                                     <div class="add-options-message">
                                         <a href="#" class="options-message" data-toggle="tooltip" data-placement="top"
@@ -91,7 +92,8 @@
                                     {% endif %}
 
                                     <div class="author-date">
-                                        <a class="h6 post__author-name fn" href="#">{{ post.user.get_full_name }}</a>
+                                        <a class="h6 post__author-name fn"
+                                           href="{% url 'profile:user-timeline' post.user.username %}">{{ post.user.get_full_name }}</a>
                                         <div class="post__date">
                                             <time class="published" datetime="2004-07-24T18:18">
                                                 Posted {{ post.get_date }}
