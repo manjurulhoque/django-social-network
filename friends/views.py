@@ -1,4 +1,4 @@
-import json
+from rest_framework.decorators import api_view
 from django.contrib.auth.mixins import LoginRequiredMixin
 from accounts.models import User
 from asgiref.sync import async_to_sync
@@ -20,8 +20,9 @@ class FindFriendsListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         current_user_friends = self.request.user.friends.values('id')
         sent_request = list(
-            FriendshipRequest.objects.filter(Q(to_user=self.request.user) | Q(from_user=self.request.user))
-                .values_list('from_user_id', flat=True))
+            FriendshipRequest.objects.filter(Q(from_user=self.request.user))
+            .exclude(to_user_id=self.request.user.id)
+            .values_list('to_user_id', flat=True))
         users = User.objects.exclude(id__in=current_user_friends).exclude(id__in=sent_request).exclude(
             id=self.request.user.id)
         return users
@@ -42,7 +43,14 @@ class FriendRequestsListView(LoginRequiredMixin, ListView):
 def send_request(request, username=None):
     if username is not None:
         friend_user = User.objects.get(username=username)
-        friend_request = Friend.objects.add_friend(request.user, friend_user, message='Hi! I would like to add you')
+        try:
+            friend_request = Friend.objects.add_friend(request.user, friend_user, message='Hi! I would like to add you')
+        except Exception as e:
+            data = {
+                'status': False,
+                'message': str(e),
+            }
+            return JsonResponse(data)
         channel_layer = get_channel_layer()
         channel = "all_friend_requests_{}".format(friend_user.username)
         async_to_sync(channel_layer.group_send)(
@@ -70,5 +78,18 @@ def accept_request(request, friend=None):
         data = {
             'status': True,
             'message': "You accepted friend request",
+        }
+        return JsonResponse(data)
+
+
+@api_view(['DELETE'])
+def cancel_request(request, friend=None):
+    if friend is not None:
+        friend_user = User.objects.get(username=friend)
+        friend_request = FriendshipRequest.objects.get(to_user=request.user, from_user=friend_user)
+        friend_request.cancel()
+        data = {
+            'status': True,
+            'message': "Your friend request is removed",
         }
         return JsonResponse(data)

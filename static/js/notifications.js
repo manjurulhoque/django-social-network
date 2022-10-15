@@ -19,7 +19,7 @@ $('.notification-icon .add-friend').click(function () {
             if (res.status) {
                 toastr.success('Friend request sent');
             } else {
-                toastr.info('Something went wrong');
+                toastr.info(res.message || 'Something went wrong');
             }
         },
         error: function (err) {
