@@ -281,9 +281,9 @@
                             <li>
                                 <div class="author-thumb">
                                     {% if user.profile.profile_image.url %}
-                                        <img src="{{ user.profile.profile_image.url }}" class="author-img" alt="author">
+                                        <img src="{{ user.profile.profile_image.url }}" class="author-img" alt="author" style="height: 45px">
                                     {% else %}
-                                        <img src="{% static 'img/bg-birthdays.jpg' %}" class="author-img" alt="author">
+                                        <img src="{% static 'img/bg-birthdays.jpg' %}" class="author-img" alt="author" style="height: 45px">
                                     {% endif %}
                                 </div>
                                 <div class="notification-event">
