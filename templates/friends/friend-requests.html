@@ -10,7 +10,7 @@
             <div class="col col-xl-12 order-xl-2 col-lg-9 order-lg-2 col-md-12 order-md-1 col-sm-12 col-12">
                 <div class="ui-block">
                     <div class="ui-block-title">
-                        <h6 class="title">Friend Requests</h6>
+                        <h6 class="title">Received Friend Requests</h6>
                     </div>
                     <!-- Notification List Frien Requests -->
                     <ul class="notification-list friend-requests">
@@ -19,9 +19,9 @@
                                 <div class="author-thumb">
                                     {% if friend_request.from_user.profile.profile_image.url %}
                                         <img src="{{ friend_request.from_user.profile.profile_image.url }}"
-                                             class="author-img" alt="author">
+                                             class="author-img" alt="author" style="height: 45px">
                                     {% else %}
-                                        <img src="{% static 'img/bg-birthdays.jpg' %}" class="author-img" alt="author">
+                                        <img src="{% static 'img/bg-birthdays.jpg' %}" class="author-img" alt="author" style="height: 45px">
                                     {% endif %}
                                 </div>
                                 <div class="notification-event">

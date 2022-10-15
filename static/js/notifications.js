@@ -71,7 +71,8 @@ function createNotification(notification) {
                         <div class="container">
                             <div class="row">
                                 <div class="col-md-3">
-                                    <img src="img/avatar55-sm.jpg" alt="author">
+<!--                                    <img src="img/avatar55-sm.jpg" alt="author">-->
+                                    <img src="static/img/bg-birthdays.jpg" class="author-img" alt="author" style="height: 45px">
                                 </div>
                                 <div class="col-md-9">
                                     <a href="#" class="h6 notification-friend">${notification.from_user.first_name} ${notification.from_user.last_name}</a>
@@ -116,15 +117,6 @@ function fetchNotifications() {
 }
 
 function createLikeCommentNotification(notification) {
-    // let single = `<li>
-    //                     <a href="#" title="">
-    //                         <img src="images/resources/thumb-1.jpg" alt="">
-    //                         <div class="mesg-meta">
-    //                             <span>${notification.actor.username} ${notification.verb}</span>
-    //                             <i>2 min ago</i>
-    //                         </div>
-    //                     </a>
-    //                 </li>`;
     let single = `
                 <li>
                     <div class="author-thumb">
