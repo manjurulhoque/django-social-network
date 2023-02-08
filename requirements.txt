@@ -16,7 +16,7 @@ chardet==3.0.4
 colorama==0.4.3
 constantly==15.1.0
 contextlib2==0.6.0
-cryptography==3.4.7
+cryptography==39.0.1
 daphne==3.0.2
 distlib==0.3.0
 distro==1.4.0
