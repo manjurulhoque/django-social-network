@@ -53,7 +53,7 @@ Now that the virtual environment is activated, we can start installing, upgradin
 
 6. The first step is to install the module,using the Python package manager, pip:
 ```bash
-pip -r install requirements.txt
+pip install -r requirements.txt
 ```
 Modify `django-social-network/setting.py` with database settings if you want to connect database other than default sqlite db.
 
