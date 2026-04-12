@@ -41,7 +41,7 @@ pyasn1==0.6.1
 pyasn1_modules==0.4.1
 pycparser==2.22
 PyHamcrest==2.1.0
-pyOpenSSL==25.0.0
+pyOpenSSL==26.0.0
 pyparsing==3.2.1
 python-dateutil==2.9.0.post0
 pytoml==0.1.21
