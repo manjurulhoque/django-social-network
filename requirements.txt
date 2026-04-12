@@ -20,7 +20,7 @@ cryptography==44.0.2
 daphne==4.1.2
 distlib==0.3.9
 distro==1.9.0
-Django==5.1.6
+Django==5.1.7
 django-activity-stream==2.0.0
 djangorestframework==3.15.2
 Faker==36.1.1
