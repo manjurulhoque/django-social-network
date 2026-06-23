@@ -32,7 +32,7 @@ idna==3.10
 incremental==24.7.2
 ipaddr==2.2.0
 lockfile==0.12.2
-msgpack==1.1.0
+msgpack==1.2.1
 packaging==24.2
 pep517==0.13.1
 pillow==11.1.0
